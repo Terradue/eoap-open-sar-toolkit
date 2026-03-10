@@ -1,0 +1,66 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "stac-catalog"
+dynamic = ["version"]
+description = ''
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "Fabrice Brito", email = "fabrice.brito@terradue.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+  "click>=8.0.0",
+]
+
+[project.urls]
+Documentation = "https://github.com/Fabrice Brito/stac-catalog#readme"
+Issues = "https://github.com/Fabrice Brito/stac-catalog/issues"
+Source = "https://github.com/Fabrice Brito/stac-catalog"
+
+[tool.hatch.version]
+path = "src/stac_catalog/__about__.py"
+
+[project.scripts]
+stac-catalog = "stac_catalog.cli:main"
+
+[tool.hatch.envs.types]
+extra-dependencies = [
+  "mypy>=1.0.0",
+]
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/stac_catalog tests}"
+
+[tool.coverage.run]
+source_pkgs = ["stac_catalog", "tests"]
+branch = true
+parallel = true
+omit = [
+  "src/stac_catalog/__about__.py",
+]
+
+[tool.coverage.paths]
+stac_catalog = ["src/stac_catalog", "*/stac-catalog/src/stac_catalog"]
+tests = ["tests", "*/stac-catalog/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]

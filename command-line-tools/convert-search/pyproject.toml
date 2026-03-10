@@ -1,0 +1,66 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "convert-search"
+dynamic = ["version"]
+description = ''
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "Fabrice Brito", email = "fabrice.brito@terradue.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+  "click>=8.0.0",
+]
+
+[project.urls]
+Documentation = "https://github.com/Fabrice Brito/convert-search#readme"
+Issues = "https://github.com/Fabrice Brito/convert-search/issues"
+Source = "https://github.com/Fabrice Brito/convert-search"
+
+[tool.hatch.version]
+path = "src/convert_search/__about__.py"
+
+[project.scripts]
+convert-search = "convert_search.cli:main"
+
+[tool.hatch.envs.types]
+extra-dependencies = [
+  "mypy>=1.0.0",
+]
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/convert_search tests}"
+
+[tool.coverage.run]
+source_pkgs = ["convert_search", "tests"]
+branch = true
+parallel = true
+omit = [
+  "src/convert_search/__about__.py",
+]
+
+[tool.coverage.paths]
+convert_search = ["src/convert_search", "*/convert-search/src/convert_search"]
+tests = ["tests", "*/convert-search/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
