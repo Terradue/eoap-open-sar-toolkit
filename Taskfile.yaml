@@ -26,9 +26,9 @@ tasks:
     cmds:
       - |
         cd command-line-tools/convert-search
-        docker build -t convert-search:latest .
+        podman build -t convert-search:latest .
         cd ../stac-catalog
-        docker build -t stac-catalog:latest .
+        podman build -t stac-catalog:latest .
     silent: false
 
   run: 
