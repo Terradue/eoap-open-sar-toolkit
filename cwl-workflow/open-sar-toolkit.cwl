@@ -54,32 +54,26 @@ s:publisher:
 
 # Authors & Contributors
 s:author:
-- '@type': s:Role
-  s:roleName: Author
-  s:additionalType: http://purl.org/spar/datacite/Author
-  s:author:
-    '@type': s:Person
-    s:affiliation:
-      '@type': s:Organization
-      s:name: Food and Agriculture Organization of the United Nations
-      s:identifier: https://ror.org/00pe0tf51
-    s:familyName: Vollrath
-    s:givenName: Andreas
-    s:identifier: https://github.com/BuddyVolly
+- '@type': s:Person
+  s:affiliation:
+    '@type': s:Organization
+    s:name: Food and Agriculture Organization of the United Nations
+    s:identifier: https://ror.org/00pe0tf51
+  s:familyName: Vollrath
+  s:givenName: Andreas
+  s:identifier: https://github.com/BuddyVolly
+  s:email: andreas.vollrath@fao.org
 
-- '@type': s:Role
-  s:roleName: Author
-  s:additionalType: http://purl.org/spar/datacite/Author
-  s:author:
-    '@type': s:Person
-    s:affiliation:
-      '@type': s:Organization
-      s:name: Brockmann Consult
-      s:identifier: https://ror.org/04r0k9g65
-    s:familyName: Lurcock
-    s:givenName: Pontus
-    s:identifier: https://orcid.org/0000-0001-6994-071X
-    s:sameAs: https://github.com/pont-us
+- '@type': s:Person
+  s:affiliation:
+    '@type': s:Organization
+    s:name: Brockmann Consult
+    s:identifier: https://ror.org/04r0k9g65
+  s:familyName: Lurcock
+  s:givenName: Pontus
+  s:identifier: https://orcid.org/0000-0001-6994-071X
+  s:sameAs: https://github.com/pont-us
+  s:email: pontus.lurcock@brockmann-consult.de
 
 s:contributor:
 - '@type': s:Role
