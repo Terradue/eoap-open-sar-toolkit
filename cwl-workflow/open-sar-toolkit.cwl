@@ -39,7 +39,7 @@ s:softwareRequirements:
 - https://www.python.org/
 
 # Current version of the software
-s:softwareVersion: 2.1.9
+s:softwareVersion: 2.2.0
 s:softwareHelp:
   '@type': s:CreativeWork
   s:name: DeveloperGuide 
