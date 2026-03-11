@@ -1,4 +1,4 @@
-FROM rockylinux/rockylinux:10.1-minimal AS builder
+FROM docker.io/rockylinux/rockylinux:10.1-minimal AS builder
 
 RUN microdnf -y update && \
     microdnf -y install curl tar python3 python3-pip python3-setuptools gcc && \
@@ -16,7 +16,7 @@ COPY . /src
 # Build a wheel for your project (outputs into /src/dist)
 RUN hatch build -t wheel
 
-FROM rockylinux/rockylinux:10.1-minimal AS runtime
+FROM docker.io/rockylinux/rockylinux:10.1-minimal AS runtime
 
 
 RUN microdnf -y update && \
