@@ -5,59 +5,101 @@ $namespaces:
 schemas:
 - http://schema.org/version/9.0/schemaorg-current-http.rdf
 
-
-s:name: My shiny workflow
-s:description: There's no workflow on earth like this one that solves NP-complete problems.
-s:dateCreated: '2026-01-01'
+# Software 
+s:name: OpenSarToolkit 
+s:description: Preprocessing an S1 image with OpenSarToolkit OST.
+s:dateCreated: '2026-03-10'
 s:license:
   '@type': s:CreativeWork
   s:identifier: CC-BY-4.0
 
+# Discoverability and citation
+s:keywords:
+- CWL
+- CWL Workflow
+- Workflow
+- Earth Observation
+- Earth Observation application package
+- '@type': s:DefinedTerm
+  s:description: delineation
+  s:name: application-type
+- '@type': s:DefinedTerm
+  s:description: terrain
+  s:name: domain
+- '@type': s:DefinedTerm
+  s:inDefinedTermSet: https://gcmd.earthdata.nasa.gov/kms/concepts/concept_scheme/sciencekeywords
+  s:termCode: 959f1861-a776-41b1-ba6b-d23c71d4d1eb
+
+# Run-time environment
 s:operatingSystem:
 - Linux
-- macOS
+- MacOS X
 s:softwareRequirements:
 - https://cwltool.readthedocs.io/en/latest/
 - https://www.python.org/
 
-s:softwareVersion: 2.1.7
+# Current version of the software
+s:softwareVersion: 2.1.8
 s:softwareHelp:
-- '@type': s:CreativeWork
-  s:name: User Manual
-  s:url: https://meoga-shiny-workflow.readthedocs.io/en/latest/
-- '@type': s:CreativeWork
-  s:name: Admin Manual
-  s:url: https://meoga.io/meoga/shiny-workflow/admin
+  '@type': s:CreativeWork
+  s:name: DeveloperGuide 
+  s:url: https://terradue.github.io/eoap-open-sar-toolkit/
 
-
+# Publisher
 s:publisher:
   '@type': s:Organization
-  s:name: Make Earth Observation Great Again
-  s:email: info@meoga.com
-  s:identifier: https://ror.org/9999cx000
+  s:name: Terradue Srl
+  s:email: info@terradue.com
+  s:identifier: https://ror.org/0069cx113
 
+# Authors & Contributors
 s:author:
-- '@type': s:Person
-  s:givenName: Lex
-  s:familyName: Luthor
-  s:email: lex.luthor@luthorcorp.com
-  s:identifier: https://orcid.org/0000-9999-0000-9999
-  s:affiliation:
-    '@type': s:Organization
-    s:name: Luthor Corp
-    s:identifier: https://ror.org/0000cx000
+- '@type': s:Role
+  s:roleName: Author
+  s:additionalType: http://purl.org/spar/datacite/Author
+  s:author:
+    '@type': s:Person
+    s:affiliation:
+      '@type': s:Organization
+      s:name: Food and Agriculture Organization of the United Nations
+      s:identifier: https://ror.org/00pe0tf51
+    s:familyName: Vollrath
+    s:givenName: Andreas
+    s:identifier: https://github.com/BuddyVolly
+
+- '@type': s:Role
+  s:roleName: Author
+  s:additionalType: http://purl.org/spar/datacite/Author
+  s:author:
+    '@type': s:Person
+    s:affiliation:
+      '@type': s:Organization
+      s:name: Brockmann Consult
+      s:identifier: https://ror.org/04r0k9g65
+    s:familyName: Lurcock
+    s:givenName: Pontus
+    s:identifier: https://orcid.org/0000-0001-6994-071X
+    s:sameAs: https://github.com/pont-us
 
 s:contributor:
-- '@type': s:Person
-  s:givenName: Clark
-  s:familyName: Kent
-  s:email: clark.kent@dailyplanet.com
-  s:identifier: https://orcid.org/0000-9999-0000-9999
-  s:affiliation:
-    '@type': s:Organization
-    s:name: Daily Planet
-    s:identifier: https://ror.org/0000cx000
+- '@type': s:Role
+  s:roleName: Researcher
+  s:additionalType: http://purl.org/spar/datacite/Researcher
+  s:contributor:
+    '@type': s:Person
+    s:affiliation:
+      '@type': s:Organization
+      s:name: Terradue Srl
+      s:identifier: https://ror.org/0069cx113
+    s:email: simone.vaccari@terradue.com
+    s:familyName: Vaccari
+    s:givenName: Simone
+    s:identifier: https://orcid.org/0000-0002-2757-4165
 
+
+# =============
+# CWL Workflow 
+# =============
 $graph:
   - label: OpenSarToolkit
     class: Workflow
