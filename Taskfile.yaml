@@ -35,14 +35,14 @@ tasks:
     desc: 'Run the convert-search CLI'
     cmds:
       - |
-        hatch run ml4floods-cli \
+        hatch run convert-search-cli \
           --product-uri "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-2-l2a/items/S2B_MSIL2A_20241031T105109_R051_T31SBD_20241031T133016" \
           --water-threshold 0.7 \
           --brightness-threshold 3500
     silent: false
 
   run-cwl:
-    desc: 'Run the ml4floods CWL workflow'
+    desc: 'Run the opensartoolkit CWL workflow'
     vars:
       PARAMS_FILE:
         sh: mktemp
@@ -68,21 +68,28 @@ tasks:
     desc: Run tests
     cmds:
     - |
-      cd command-line-tools/ml4floods-cli
+      cd command-line-tools/convert-search
+      hatch run test:test-show-setup
+
+      cd ../stac-catalog
       hatch run test:test-show-setup
 
   check:
     desc: Run code quality checks
     cmds:
     - |
-      cd command-line-tools/ml4floods-cli
+      cd command-line-tools/convert-search
+      hatch run dev:check
+      cd ../stac-catalog
       hatch run dev:check
 
   lint:
     desc: Run linters
     cmds:
     - |
-      cd command-line-tools/ml4floods-cli
+      cd command-line-tools/convert-search
+      hatch run dev:lint
+      cd ../stac-catalog
       hatch run dev:lint
 
   generate-docs:

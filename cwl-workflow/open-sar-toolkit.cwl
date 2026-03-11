@@ -1,9 +1,62 @@
 cwlVersion: v1.2
 $namespaces:
   s: https://schema.org/
-s:softwareVersion: 2.1.7
+
 schemas:
 - http://schema.org/version/9.0/schemaorg-current-http.rdf
+
+
+s:name: My shiny workflow
+s:description: There's no workflow on earth like this one that solves NP-complete problems.
+s:dateCreated: '2026-01-01'
+s:license:
+  '@type': s:CreativeWork
+  s:identifier: CC-BY-4.0
+
+s:operatingSystem:
+- Linux
+- macOS
+s:softwareRequirements:
+- https://cwltool.readthedocs.io/en/latest/
+- https://www.python.org/
+
+s:softwareVersion: 2.1.7
+s:softwareHelp:
+- '@type': s:CreativeWork
+  s:name: User Manual
+  s:url: https://meoga-shiny-workflow.readthedocs.io/en/latest/
+- '@type': s:CreativeWork
+  s:name: Admin Manual
+  s:url: https://meoga.io/meoga/shiny-workflow/admin
+
+
+s:publisher:
+  '@type': s:Organization
+  s:name: Make Earth Observation Great Again
+  s:email: info@meoga.com
+  s:identifier: https://ror.org/9999cx000
+
+s:author:
+- '@type': s:Person
+  s:givenName: Lex
+  s:familyName: Luthor
+  s:email: lex.luthor@luthorcorp.com
+  s:identifier: https://orcid.org/0000-9999-0000-9999
+  s:affiliation:
+    '@type': s:Organization
+    s:name: Luthor Corp
+    s:identifier: https://ror.org/0000cx000
+
+s:contributor:
+- '@type': s:Person
+  s:givenName: Clark
+  s:familyName: Kent
+  s:email: clark.kent@dailyplanet.com
+  s:identifier: https://orcid.org/0000-9999-0000-9999
+  s:affiliation:
+    '@type': s:Organization
+    s:name: Daily Planet
+    s:identifier: https://ror.org/0000cx000
 
 $graph:
   - label: OpenSarToolkit
@@ -201,18 +254,21 @@ $graph:
     class: CommandLineTool
     label: Gets the item self hrefs
     doc: Gets the item self hrefs from a STAC search result
-    baseCommand: ["/bin/sh", "run.sh"]
-    arguments: 
-      - valueFrom: $(inputs.search_results.path)      
+    baseCommand: ["convert-search"]
     inputs:
       target_datetime:
         label: Target datetime
         doc: Target datetime in ISO 8601 format
         type: https://raw.githubusercontent.com/eoap/schemas/main/string_format.yaml#DateTime
+        inputBinding:
+          prefix: --target-datetime
+          valueFrom: $(self.value)
       search_results:
         label: Search Results
         doc: Search results from the discovery step
         type: File
+        inputBinding:
+          prefix: --search-results
     outputs:
       items:
         type:
@@ -237,53 +293,6 @@ $graph:
           - $import: https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml
           - $import: https://raw.githubusercontent.com/eoap/schemas/main/experimental/api-endpoint.yaml
           - $import: https://raw.githubusercontent.com/eoap/schemas/main/experimental/discovery.yaml
-      EnvVarRequirement:
-        envDef:
-          TARGET_DATETIME: $(inputs.target_datetime.value)
-      InitialWorkDirRequirement:
-        listing:
-        - entryname: run.sh
-          entry: |-
-            #!/usr/bin/env sh
-            set -x
-            set -euo pipefail
-
-            # ==============================================================
-            # Select only the best candidate, ie S1 scene closest to target_date
-            search_results="$1"
-            target_day="\$(echo "$TARGET_DATETIME" | cut -c1-10 | tr -d "-")"
-            echo "Target datetime: $target_day"
-
-            # Extract product IDs (one per line)
-            yq -r "
-              .features[].links[]
-              | select(.rel==\"derived_from\")
-              | .href
-              | capture(\"Name%20eq%20%27(?<name>[^%]+)\\.SAFE%27\").name
-            " "$search_results" > candidates.txt
-
-            echo "Candidates:"
-            cat candidates.txt
-
-            # Choose same-day if exists; else first
-            # Build awk program in a temp file, without shell expanding $0 etc.
-            cat > /tmp/select_best.awk <<\AWK
-            $0 ~ "_" td "T" { print; exit }
-            NR==1 { first=$0 }
-            END { if (first) print first }
-            AWK
-
-            best="\$(awk -v td="$target_day" -f /tmp/select_best.awk candidates.txt | head -n 1)"
-
-            # Write JSON array (what your outputEval expects)
-            if [ -z "$best" ]; then
-              echo "[]" > items.json
-            else
-              printf "[\"%s\"]\n" "$best" > items.json
-            fi
-
-            echo "Selected item(s):"
-            cat items.json
 
 
 # =====================================
@@ -560,13 +569,13 @@ $graph:
 
   - id: to-stac-catalog
     class: CommandLineTool
-    baseCommand: ["python3", "write_cog.py"]
+    baseCommand: ["stac-catalog"]
     inputs:
       input_tif:
         label: Input TIFF file
         type: Directory
         inputBinding:
-          prefix: --input_tif
+          prefix: --input-tif
       reference_ID:
         label: Product reference ID
         type: string
@@ -597,249 +606,3 @@ $graph:
       ResourceRequirement:
         coresMax: 6
         ramMax: 24000
-      InlineJavascriptRequirement: {}
-      InitialWorkDirRequirement:
-        listing:
-        - entryname: write_cog.py
-          entry: |-
-            #!/usr/bin/env python3
-            import json
-            import os
-            import shutil
-            import sys
-            from pathlib import Path
-            from urllib.parse import urlparse
-            import click
-
-            # from loguru import logger
-            import pystac 
-
-            import numpy as np
-            import rasterio
-            from rasterio.enums import Resampling
-            from rasterio.shutil import copy as rio_copy
-            from rasterio.windows import from_bounds, Window, transform as window_transform
-            from rasterio.windows import bounds as window_bounds
-
-            # Function to crop with BBOX and create COG
-            def rasterio_save_cog_bbox(input_tif: Path, output_tif: Path, bbox=None) -> None:
-
-                factors = [2, 4, 8, 16, 32, 64]
-
-                with rasterio.open(input_tif) as src:
-                    profile = src.profile.copy()
-
-                    if bbox is not None:
-                        minx, miny, maxx, maxy = bbox
-
-                        # Window in the *source CRS units* (so bbox must be in src.crs coordinates)
-                        win = from_bounds(minx, miny, maxx, maxy, transform=src.transform)
-
-                        # Make sure it is integer aligned and clipped to raster extent
-                        win = win.round_offsets().round_lengths()
-                        win = win.intersection(Window(0, 0, src.width, src.height))
-
-                        if win.width <= 0 or win.height <= 0:
-                            raise ValueError("BBOX does not intersect raster extent (empty window).")
-
-                        # Compute the *actual* bounds we will write, snapped to pixels and clipped
-                        out_bounds = window_bounds(win, src.transform)
-
-                        arr = src.read(window=win)
-                        new_transform = window_transform(win, src.transform)
-
-                        profile.update(
-                            height=int(win.height),
-                            width=int(win.width),
-                            transform=new_transform,
-                        )
-                    else:
-                        arr = src.read()
-                        out_bounds = src.bounds
-
-                if np.issubdtype(arr.dtype, np.floating):
-                    nan_mask = np.isnan(arr)
-                    if nan_mask.any():
-                        arr = arr.copy()
-                        arr[nan_mask] = 0
-
-                profile.update(
-                    driver="GTiff",
-                    tiled=True,
-                    blockxsize=256,
-                    blockysize=256,
-                    compress="deflate",
-                    BIGTIFF="IF_NEEDED",
-                    count=arr.shape[0],
-                )
-
-                tmp = Path("/tmp") / (output_tif.stem + "_temp.tif")
-                tmp.parent.mkdir(parents=True, exist_ok=True)
-
-                try:
-                    with rasterio.open(tmp, "w", **profile) as dst:
-                        dst.write(arr)
-                        dst.build_overviews(factors, Resampling.nearest)
-                        dst.update_tags(ns="rio_overview", resampling="nearest")
-
-                    rio_copy(
-                        str(tmp),
-                        str(output_tif),
-                        copy_src_overviews=True,
-                        driver="COG",
-                        compress="deflate",
-                        # If you want to force 256 in the final COG:
-                        # BLOCKSIZE=256,
-                    )
-                finally:
-                    if tmp.exists():
-                        tmp.unlink()
-
-                return out_bounds
-
-            @click.command(
-                short_help="Script to crop with BBOX and write to COG",
-                help="Script to crop with BBOX and write to COG",
-            )
-            @click.option(
-                "--input_tif",
-                help="Input dir containing the STAC catalog, Item and asset *.tif",
-                required=True,
-            )
-            @click.option(
-                "--reference-id",
-                "reference_id",
-                help="Reference ID",
-                required=True,
-            )
-            @click.option(
-                "--bbox",
-                type=(float, float, float, float),
-                help="Bounding box to use for cropping the COG output",
-            )
-            def main(input_tif, reference_id, bbox):
-
-                print(f"Start processing: {reference_id}")
-                
-                # BBOX check
-                if bbox is not None and len(bbox) != 4:
-                    raise ValueError("bbox must have 4 elements: minx miny maxx maxy")
-                if bbox is None: 
-                    print("No BBOX, no cropping")
-                else: 
-                    print("BBOX is provided, cropping and then creating COG")
-                
-                in_dir = Path(input_tif).resolve() 
-                out_dir = Path.cwd().resolve() 
-
-                out_dir.mkdir(parents=True, exist_ok=True)
-                
-                # Read Catalog
-                catalog_path = in_dir / "catalog.json"
-                if not catalog_path.exists():
-                    raise FileNotFoundError(f"Missing catalog.json at: {catalog_path}")
-                catalog = pystac.Catalog.from_file(str(catalog_path))
-
-                # Read Item
-                item_links = [link for link in catalog.links if link.rel == "item"]
-                if len(item_links) != 1:
-                    raise ValueError(f"Expected exactly 1 item link in catalog, found {len(item_links)}")
-                item_link = item_links[0]
-                item_json_path = (catalog_path.parent / Path(item_link.href)).resolve()
-                if not item_json_path.exists():
-                    raise FileNotFoundError(f"Item JSON not found at: {item_json_path}")
-
-                item = pystac.Item.from_file(str(item_json_path))
-                
-                # Read Asset Tiff
-                asset_key = "TIFF"
-                asset_tif = item.get_assets()[asset_key]
-
-                tif_path = item_json_path.parent / Path(asset_tif.href)
-                if not tif_path.exists():
-                    raise FileNotFoundError(f"TIFF asset path does not exist: {tif_path}")
-
-                # Output dir
-                bundle_name = f"{reference_id}-COG"
-                out_root = Path.cwd().resolve() / bundle_name
-                out_root.mkdir(parents=True, exist_ok=True)
-                
-                # Directory + JSON base name (matches your example)
-                out_item_dir = out_root / bundle_name
-                out_item_dir.mkdir(parents=True, exist_ok=True)
-
-                out_item_json_path = out_item_dir / f"{bundle_name}.json"
-                tif_fname = "ost-ard-cog" 
-                out_cog_path = out_item_dir / f"{tif_fname}.tif"
-
-                # Set path of catalog
-                out_catalog_path = out_root / "catalog.json"
-                
-                print(f"Bundle root: {out_root}")
-                print(f"Catalog: {out_catalog_path}")
-                print(f"Out item dir: {out_item_dir}")
-                print(f"Out item JSON: {out_item_json_path}")
-                print(f"Out COG: {out_cog_path}")
-
-                # --- Create COG (cropped or full) ---
-                out_bounds = rasterio_save_cog_bbox(tif_path, out_cog_path, bbox=bbox)
-
-                # --- Build output STAC Item ---
-                # Start from the original item object, but rewrite it for the new structure
-                out_item = item.clone()
-
-                # 1) Set item id 
-                out_item.id = bundle_name
-                print(f"New item ID: {out_item.id}")
-
-                # 2) Ensure self href points to the new JSON path
-                out_item.set_self_href(str(out_item_json_path))
-
-                # 3) Build a new asset for the COG
-                cog_asset = pystac.Asset(
-                    href=out_cog_path.name,  # relative inside item dir
-                    media_type="image/tiff; application=geotiff; profile=cloud-optimized",
-                    title="OST-processed ARD COG",
-                    roles=["data", "visual"],
-                )
-
-                # Replace assets with only the COG (optional, but keeps things clean)
-                out_item.assets = {}
-                out_item.add_asset(tif_fname, cog_asset)
-
-                # 4) Update spatial fields to match output bounds (cropped or full)
-                minx, miny, maxx, maxy = map(float, out_bounds)
-                out_item.bbox = [minx, miny, maxx, maxy]
-                out_item.geometry = {
-                    "type": "Polygon",
-                    "coordinates": [[
-                        [minx, miny],
-                        [minx, maxy],
-                        [maxx, maxy],
-                        [maxx, miny],
-                        [minx, miny],
-                    ]]
-                }
-
-                # --- Build output Catalog with correct link to the new item ---
-                out_catalog = pystac.Catalog(
-                    id="ost-ard-cog-catalog",
-                    description="OST ARD COG output",
-                )
-
-                # Set correct hrefs 
-                out_catalog.set_self_href(str(out_catalog_path))
-                out_item.set_self_href(str(out_item_json_path))
-
-                out_catalog.add_item(out_item)
-
-                # Save catalog + item
-                out_catalog.save(catalog_type=pystac.CatalogType.SELF_CONTAINED)
-
-                print(f"Catalog written to: {out_catalog_path}")
-                print(f"Item written to: {out_item_json_path}")
-                print(f"COG written to: {out_cog_path}")
-
-
-            if __name__ == "__main__":
-                main()

@@ -1,6 +1,8 @@
-# cli.py
-
 import click
+import json
+from pathlib import Path
+
+from convert_search.process import convert_search_results
 
 
 @click.command(
@@ -13,12 +15,17 @@ import click
 )
 @click.option(
     "--search-results",
-    type=click.Path(exists=True, dir_okay=False, file_okay=True, readable=True),
+    required=True,
+    type=click.Path(
+        exists=True, dir_okay=False, file_okay=True, readable=True, path_type=Path
+    ),
 )
 def main(target_datetime, search_results):
-
     click.echo(f"Target datetime: {target_datetime}")
     click.echo(f"Search results file: {search_results}")
+    items = convert_search_results(search_results, target_datetime)
+    Path("items.json").write_text(json.dumps(items), encoding="utf-8")
+    click.echo(f"Selected items: {items}")
 
 
 if __name__ == "__main__":
