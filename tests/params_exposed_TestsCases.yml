@@ -1,0 +1,74 @@
+resolution: 100
+ard-type: 'OST_GTC'
+with-speckle-filter: "NO-FILTER"
+resampling-method: 'BILINEAR_INTERPOLATION' # 'BICUBIC_INTERPOLATION'
+
+# # Test Case 1
+# target_datetime:
+#   value: "2024-11-13T00:00:00Z"
+
+# bbox:
+#   class: https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml#Polygon
+#   type: Polygon
+#   bbox: [12.146, 41.701, 12.629, 41.967]
+#   coordinates: [[[12.146, 41.701],[12.629, 41.701],[12.629, 41.967],[12.146, 41.967],[12.146, 41.701]]]
+
+# ------------------------------------------------------------------------------------------------------------
+
+# # Test Case 2
+# target_datetime:
+#   value: "2024-11-14T00:00:00Z"
+
+# bbox:
+#   class: https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml#Polygon
+#   type: Polygon
+#   bbox: [12.146, 41.701, 12.629, 41.967]
+#   coordinates: [[[12.146, 41.701],[12.629, 41.701],[12.629, 41.967],[12.146, 41.967],[12.146, 41.701]]]
+
+# ------------------------------------------------------------------------------------------------------------
+
+# # Test Case 3
+# target_datetime:
+#   value: "2024-11-13T00:00:00Z"
+
+# bbox:
+#   class: https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml#Polygon
+#   type: Polygon
+#   bbox: [12.145, 42.033, 12.634, 42.298]
+#   coordinates: [[[12.145, 42.033],[12.634, 42.033],[12.634, 42.298],[12.145, 42.298],[12.145, 42.033]]]
+
+# ------------------------------------------------------------------------------------------------------------
+
+# # Test Case 4
+# target_datetime:
+#   value: "2024-11-12T00:00:00Z"
+
+# bbox:
+#   class: https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml#Polygon
+#   type: Polygon
+#   bbox: [12.145, 42.033, 12.634, 42.298]
+#   coordinates: [[[12.145, 42.033],[12.634, 42.033],[12.634, 42.298],[12.145, 42.298],[12.145, 42.033]]]
+
+# ------------------------------------------------------------------------------------------------------------
+
+# # Test Case 5
+# target_datetime:
+#   value: "2024-11-13T00:00:00Z"
+
+# bbox:
+#   class: https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml#Polygon
+#   type: Polygon
+#   bbox: [13.881, 42.045, 14.398, 42.314]
+#   coordinates: [[[13.881, 42.045],[14.398, 42.045],[14.398, 42.314],[13.881, 42.314],[13.881, 42.045]]]
+
+# ------------------------------------------------------------------------------------------------------------
+
+# Test Case 6
+target_datetime:
+  value: "2024-11-12T00:00:00Z"
+
+bbox:
+  class: https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml#Polygon
+  type: Polygon
+  bbox: [13.881, 42.045, 14.398, 42.314]
+  coordinates: [[[13.881, 42.045],[14.398, 42.045],[14.398, 42.314],[13.881, 42.314],[13.881, 42.045]]]

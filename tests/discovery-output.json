@@ -1,0 +1,425 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "stac_version": "1.1.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/product/v1.0.0/schema.json",
+        "https://stac-extensions.github.io/sat/v1.0.0/schema.json",
+        "https://stac-extensions.github.io/processing/v1.2.0/schema.json",
+        "https://stac-extensions.github.io/sar/v1.0.0/schema.json"
+      ],
+      "id": "d7ef5a5c-eb78-4cd2-9bce-efc80c0d6835",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              15.077864,
+              41.571468
+            ],
+            [
+              15.490289,
+              43.069462
+            ],
+            [
+              12.275066,
+              43.477776
+            ],
+            [
+              11.939075,
+              41.980015
+            ],
+            [
+              15.077864,
+              41.571468
+            ]
+          ]
+        ]
+      },
+      "bbox": [
+        11.939075,
+        41.571468,
+        15.490289,
+        43.477776
+      ],
+      "properties": {
+        "product:timeliness": "N/A",
+        "product:timeliness_category": "NRT-3h",
+        "sat:absolute_orbit": 56619,
+        "processing:software": "Sentinel-1 IPF",
+        "sat:orbit_state": "descending",
+        "processing:datetime": "2024-11-19T05:51:14.553473Z",
+        "processing:level": "LEVEL1",
+        "processing:facility": "Production Service-SERCO",
+        "processing:version": "003.80",
+        "sat:relative_orbit": 22,
+        "sar:polarizations": [
+          "VV",
+          "VH"
+        ],
+        "product:type": "IW_GRDH_1S",
+        "start_datetime": "2024-11-19T05:12:01.481758+00:00",
+        "end_datetime": "2024-11-19T05:12:26.480136+00:00",
+        "datetime": "2024-11-19T06:50:18.239000Z"
+      },
+      "links": [
+        {
+          "rel": "derived_from",
+          "href": "https://catalogue.dataspace.copernicus.eu/odata/v1/Products?$filter=Name%20eq%20%27S1A_IW_GRDH_1SDV_20241119T051201_20241119T051226_056619_06F1DF_F7DC.SAFE%27&$expand=Assets&$expand=Attributes#OData.CSC.StringAttribute",
+          "type": "application/json",
+          "title": "OData product entry"
+        }
+      ],
+      "assets": {
+        "Extracted": {
+          "href": "https://catalogue.dataspace.copernicus.eu/odata/v1/Products(d7ef5a5c-eb78-4cd2-9bce-efc80c0d6835)/$value",
+          "title": "Extracted",
+          "file:size": 1774557167,
+          "checksum:MD5": "963fcb0cb5b56385c4a461800933d7b7",
+          "checksum:BLAKE3": "124e2fc5a877a0ebf40e5afe5e297f1fb0ab5dd637cc472675018037e29a9dec",
+          "roles": [
+            "data"
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.1.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/product/v1.0.0/schema.json",
+        "https://stac-extensions.github.io/sat/v1.0.0/schema.json",
+        "https://stac-extensions.github.io/processing/v1.2.0/schema.json",
+        "https://stac-extensions.github.io/sar/v1.0.0/schema.json"
+      ],
+      "id": "f26776fc-3d4b-4404-99f4-e8fcf0e9230b",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              14.706372,
+              40.06802
+            ],
+            [
+              15.077833,
+              41.571381
+            ],
+            [
+              11.940241,
+              41.97979
+            ],
+            [
+              11.639172,
+              40.477943
+            ],
+            [
+              14.706372,
+              40.06802
+            ]
+          ]
+        ]
+      },
+      "bbox": [
+        11.639172,
+        40.06802,
+        15.077833,
+        41.97979
+      ],
+      "properties": {
+        "product:timeliness": "N/A",
+        "product:timeliness_category": "NRT-3h",
+        "sat:absolute_orbit": 56619,
+        "processing:software": "Sentinel-1 IPF",
+        "sat:orbit_state": "descending",
+        "processing:datetime": "2024-11-19T05:51:16.812822Z",
+        "processing:level": "LEVEL1",
+        "processing:facility": "Production Service-SERCO",
+        "processing:version": "003.80",
+        "sat:relative_orbit": 22,
+        "sar:polarizations": [
+          "VV",
+          "VH"
+        ],
+        "product:type": "IW_GRDH_1S",
+        "start_datetime": "2024-11-19T05:12:26.481603+00:00",
+        "end_datetime": "2024-11-19T05:12:51.479980+00:00",
+        "datetime": "2024-11-19T06:53:01.247000Z"
+      },
+      "links": [
+        {
+          "rel": "derived_from",
+          "href": "https://catalogue.dataspace.copernicus.eu/odata/v1/Products?$filter=Name%20eq%20%27S1A_IW_GRDH_1SDV_20241119T051226_20241119T051251_056619_06F1DF_23FB.SAFE%27&$expand=Assets&$expand=Attributes#OData.CSC.StringAttribute",
+          "type": "application/json",
+          "title": "OData product entry"
+        }
+      ],
+      "assets": {
+        "Extracted": {
+          "href": "https://catalogue.dataspace.copernicus.eu/odata/v1/Products(f26776fc-3d4b-4404-99f4-e8fcf0e9230b)/$value",
+          "title": "Extracted",
+          "file:size": 1773823262,
+          "checksum:MD5": "ac4d4c9b76fb5b5624b124baeaa91f51",
+          "checksum:BLAKE3": "0b09af3b847d7dacdae6a55c2cc926a0626b33799bfa616b12af94d9a053398a",
+          "roles": [
+            "data"
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.1.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/product/v1.0.0/schema.json",
+        "https://stac-extensions.github.io/sat/v1.0.0/schema.json",
+        "https://stac-extensions.github.io/processing/v1.2.0/schema.json",
+        "https://stac-extensions.github.io/sar/v1.0.0/schema.json"
+      ],
+      "id": "020fdbb0-3313-43ea-aa36-16acb069e6be",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              11.100653,
+              40.9328
+            ],
+            [
+              14.189954,
+              41.339962
+            ],
+            [
+              13.873197,
+              42.840092
+            ],
+            [
+              10.710614,
+              42.433846
+            ],
+            [
+              11.100653,
+              40.9328
+            ]
+          ]
+        ]
+      },
+      "bbox": [
+        10.710614,
+        40.9328,
+        14.189954,
+        42.840092
+      ],
+      "properties": {
+        "product:timeliness": "N/A",
+        "product:timeliness_category": "NRT-3h",
+        "sat:absolute_orbit": 56539,
+        "processing:software": "Sentinel-1 IPF",
+        "sat:orbit_state": "ascending",
+        "processing:datetime": "2024-11-13T17:38:15.554012Z",
+        "processing:level": "LEVEL1",
+        "processing:facility": "Production Service-SERCO",
+        "processing:version": "003.80",
+        "sat:relative_orbit": 117,
+        "sar:polarizations": [
+          "VV",
+          "VH"
+        ],
+        "product:type": "IW_GRDH_1S",
+        "start_datetime": "2024-11-13T17:06:07.293807+00:00",
+        "end_datetime": "2024-11-13T17:06:32.292309+00:00",
+        "datetime": "2024-11-13T17:49:21.787000Z"
+      },
+      "links": [
+        {
+          "rel": "derived_from",
+          "href": "https://catalogue.dataspace.copernicus.eu/odata/v1/Products?$filter=Name%20eq%20%27S1A_IW_GRDH_1SDV_20241113T170607_20241113T170632_056539_06EEA8_B145.SAFE%27&$expand=Assets&$expand=Attributes#OData.CSC.StringAttribute",
+          "type": "application/json",
+          "title": "OData product entry"
+        }
+      ],
+      "assets": {
+        "Extracted": {
+          "href": "https://catalogue.dataspace.copernicus.eu/odata/v1/Products(020fdbb0-3313-43ea-aa36-16acb069e6be)/$value",
+          "title": "Extracted",
+          "file:size": 1764468752,
+          "checksum:MD5": "1aab9cf3b385b4a29b13fa6d385e70d2",
+          "checksum:BLAKE3": "b51adee0348f93ae4979d99ed24f81a6a6cde0a1a8b7f2fe08c1293c3d0d66af",
+          "roles": [
+            "data"
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.1.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/product/v1.0.0/schema.json",
+        "https://stac-extensions.github.io/sat/v1.0.0/schema.json",
+        "https://stac-extensions.github.io/processing/v1.2.0/schema.json",
+        "https://stac-extensions.github.io/sar/v1.0.0/schema.json"
+      ],
+      "id": "d0a63bc1-0869-479e-bc6e-1d072184a810",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              13.066451,
+              41.691082
+            ],
+            [
+              13.457319,
+              43.19223
+            ],
+            [
+              10.232615,
+              43.600582
+            ],
+            [
+              9.918376,
+              42.100342
+            ],
+            [
+              13.066451,
+              41.691082
+            ]
+          ]
+        ]
+      },
+      "bbox": [
+        9.918376,
+        41.691082,
+        13.457319,
+        43.600582
+      ],
+      "properties": {
+        "product:timeliness": "N/A",
+        "product:timeliness_category": "NRT-3h",
+        "sat:absolute_orbit": 56517,
+        "processing:software": "Sentinel-1 IPF",
+        "sat:orbit_state": "descending",
+        "processing:datetime": "2024-11-12T05:57:08.457935Z",
+        "processing:level": "LEVEL1",
+        "processing:facility": "Production Service-SERCO",
+        "processing:version": "003.80",
+        "sat:relative_orbit": 95,
+        "sar:polarizations": [
+          "VV",
+          "VH"
+        ],
+        "product:type": "IW_GRDH_1S",
+        "start_datetime": "2024-11-12T05:20:13.458212+00:00",
+        "end_datetime": "2024-11-12T05:20:38.457114+00:00",
+        "datetime": "2024-11-12T06:07:27.012000Z"
+      },
+      "links": [
+        {
+          "rel": "derived_from",
+          "href": "https://catalogue.dataspace.copernicus.eu/odata/v1/Products?$filter=Name%20eq%20%27S1A_IW_GRDH_1SDV_20241112T052013_20241112T052038_056517_06EDC4_C997.SAFE%27&$expand=Assets&$expand=Attributes#OData.CSC.StringAttribute",
+          "type": "application/json",
+          "title": "OData product entry"
+        }
+      ],
+      "assets": {
+        "Extracted": {
+          "href": "https://catalogue.dataspace.copernicus.eu/odata/v1/Products(d0a63bc1-0869-479e-bc6e-1d072184a810)/$value",
+          "title": "Extracted",
+          "file:size": 1776284243,
+          "checksum:MD5": "5449b01db2bb3206fb16be07840a2b80",
+          "checksum:BLAKE3": "8f87612c8cb559859fb032700abc9a67e96856daa779c44ea7d2c5d558bcc229",
+          "roles": [
+            "data"
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.1.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/product/v1.0.0/schema.json",
+        "https://stac-extensions.github.io/sat/v1.0.0/schema.json",
+        "https://stac-extensions.github.io/processing/v1.2.0/schema.json",
+        "https://stac-extensions.github.io/sar/v1.0.0/schema.json"
+      ],
+      "id": "440806de-c485-41ab-8bb7-6e3b2403ad48",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              12.681878,
+              40.189537
+            ],
+            [
+              13.066429,
+              41.690994
+            ],
+            [
+              9.919671,
+              42.100101
+            ],
+            [
+              9.606241,
+              40.599751
+            ],
+            [
+              12.681878,
+              40.189537
+            ]
+          ]
+        ]
+      },
+      "bbox": [
+        9.606241,
+        40.189537,
+        13.066429,
+        42.100101
+      ],
+      "properties": {
+        "product:timeliness": "N/A",
+        "product:timeliness_category": "NRT-3h",
+        "sat:absolute_orbit": 56517,
+        "processing:software": "Sentinel-1 IPF",
+        "sat:orbit_state": "descending",
+        "processing:datetime": "2024-11-12T05:57:26.124251Z",
+        "processing:level": "LEVEL1",
+        "processing:facility": "Production Service-SERCO",
+        "processing:version": "003.80",
+        "sat:relative_orbit": 95,
+        "sar:polarizations": [
+          "VV",
+          "VH"
+        ],
+        "product:type": "IW_GRDH_1S",
+        "start_datetime": "2024-11-12T05:20:38.458594+00:00",
+        "end_datetime": "2024-11-12T05:21:03.455995+00:00",
+        "datetime": "2024-11-12T06:23:07.153000Z"
+      },
+      "links": [
+        {
+          "rel": "derived_from",
+          "href": "https://catalogue.dataspace.copernicus.eu/odata/v1/Products?$filter=Name%20eq%20%27S1A_IW_GRDH_1SDV_20241112T052038_20241112T052103_056517_06EDC4_8AB2.SAFE%27&$expand=Assets&$expand=Attributes#OData.CSC.StringAttribute",
+          "type": "application/json",
+          "title": "OData product entry"
+        }
+      ],
+      "assets": {
+        "Extracted": {
+          "href": "https://catalogue.dataspace.copernicus.eu/odata/v1/Products(440806de-c485-41ab-8bb7-6e3b2403ad48)/$value",
+          "title": "Extracted",
+          "file:size": 1775328833,
+          "checksum:MD5": "1f7ae5ff18aee10a7e8d7cd029381bb1",
+          "checksum:BLAKE3": "d09492762fb276bcd9124e2332236d566f7acf083b08670de2d025b06bc0523b",
+          "roles": [
+            "data"
+          ]
+        }
+      }
+    }
+  ]
+}
