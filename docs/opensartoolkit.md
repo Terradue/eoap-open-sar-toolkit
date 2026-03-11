@@ -1,10 +1,10 @@
-# My shiny workflow v2.1.7
+# OpenSarToolkit v2.1.8
 
-There's no workflow on earth like this one that solves NP-complete problems.
+Preprocessing an S1 image with OpenSarToolkit OST.
 
 > This software is licensed under the terms of the [Creative Commons Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/legalcode) license - SPDX short identifier: [CC-BY-4.0](https://spdx.org/licenses/CC-BY-4.0)
 >
-> 2026-01-01 - 2026-03-11T07:39:45.642 Copyright [Make Earth Observation Great Again](mailto:info@meoga.com) - > [https://ror.org/9999cx000](https://ror.org/9999cx000)
+> 2026-03-10 - 2026-03-11T12:54:09.024 Copyright [Terradue Srl](mailto:info@terradue.com) - > [https://ror.org/0069cx113](https://ror.org/0069cx113)
 
 ## Project Team
 
@@ -12,20 +12,21 @@ There's no workflow on earth like this one that solves NP-complete problems.
 
 | Name | Email | Organization | Role | Identifier |
 |------|-------|--------------|------|------------|
-| Luthor, Lex | [lex.luthor@luthorcorp.com](mailto:lex.luthor@luthorcorp.com) | [Luthor Corp](https://ror.org/0000cx000) | []() | [https://orcid.org/0000-9999-0000-9999](https://orcid.org/0000-9999-0000-9999) |
+| Vollrath, Andreas | [andreas.vollrath@fao.org](mailto:andreas.vollrath@fao.org) | [Food and Agriculture Organization of the United Nations](https://ror.org/00pe0tf51) | []() | [https://github.com/BuddyVolly](https://github.com/BuddyVolly) |
+| Lurcock, Pontus | [pontus.lurcock@brockmann-consult.de](mailto:pontus.lurcock@brockmann-consult.de) | [Brockmann Consult](https://ror.org/04r0k9g65) | []() | [https://orcid.org/0000-0001-6994-071X](https://orcid.org/0000-0001-6994-071X) |
 
 
 ### Contributors
 
 | Name | Email | Organization | Role | Identifier |
 |------|-------|--------------|------|------------|
-| Kent, Clark | [clark.kent@dailyplanet.com](mailto:clark.kent@dailyplanet.com) | [Daily Planet](https://ror.org/0000cx000) | []() | [https://orcid.org/0000-9999-0000-9999](https://orcid.org/0000-9999-0000-9999) |
+| Vaccari, Simone | [simone.vaccari@terradue.com](mailto:simone.vaccari@terradue.com) | [Terradue Srl](https://ror.org/0069cx113) | [Researcher](http://purl.org/spar/datacite/Researcher) | [https://orcid.org/0000-0002-2757-4165](https://orcid.org/0000-0002-2757-4165) |
 
 
 
-## 
+## DeveloperGuide
 
- can be found on []().
+DeveloperGuide can be found on [https://terradue.github.io/eoap-open-sar-toolkit/](https://terradue.github.io/eoap-open-sar-toolkit/).
 
 
 ## Runtime environment
@@ -33,7 +34,7 @@ There's no workflow on earth like this one that solves NP-complete problems.
 ### Supported Operating Systems
 
 - Linux
-- macOS
+- MacOS X
 
 ### Requirements
 
@@ -55,7 +56,16 @@ There's no workflow on earth like this one that solves NP-complete problems.
 
 ### CWL Class
 
-`Workflow`
+[Workflow](https://www.commonwl.org/v1.2/Workflow.html#Workflow)
+
+### Requirements
+
+* [NetworkAccess](https://www.commonwl.org/v1.2/Workflow.html#NetworkAccess)
+* [ScatterFeatureRequirement](https://www.commonwl.org/v1.2/Workflow.html#ScatterFeatureRequirement)
+* [SubworkflowFeatureRequirement](https://www.commonwl.org/v1.2/Workflow.html#SubworkflowFeatureRequirement)
+* [StepInputExpressionRequirement](https://www.commonwl.org/v1.2/Workflow.html#StepInputExpressionRequirement)
+* [InlineJavascriptRequirement](https://www.commonwl.org/v1.2/Workflow.html#InlineJavascriptRequirement)
+* [SchemaDefRequirement](https://www.commonwl.org/v1.2/Workflow.html#SchemaDefRequirement)
 
 ### Inputs
 
@@ -118,9 +128,7 @@ There's no workflow on earth like this one that solves NP-complete problems.
 
 ### CWL Class
 
-```
-ExpressionTool
-```
+[ExpressionTool](https://www.commonwl.org/v1.2/Workflow.html#ExpressionTool)
 
 ### Inputs
 
@@ -129,13 +137,7 @@ ExpressionTool
 | `target_datetime` | `--target_datetime` | `https://raw.githubusercontent.com/eoap/schemas/main/string_format.yaml#DateTime` |
 | `bbox` | `--bbox` | `https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml#Polygon` |
 
-### Execution usage example:
 
-```
- \
---target_datetime <TARGET_DATETIME> \
---bbox <BBOX>
-```
 
 
 ### Run in step
@@ -149,9 +151,7 @@ ExpressionTool
 
 ### CWL Class
 
-```
-CommandLineTool
-```
+[CommandLineTool](https://www.commonwl.org/v1.2/CommandLineTool.html#CommandLineTool)
 
 ### Inputs
 
@@ -180,9 +180,7 @@ odata-client search $(inputs.api_endpoint.url.value) ${ const args = []; const c
 
 ### CWL Class
 
-```
-CommandLineTool
-```
+[CommandLineTool](https://www.commonwl.org/v1.2/CommandLineTool.html#CommandLineTool)
 
 ### Inputs
 
@@ -211,7 +209,14 @@ convert-search \
 
 ### CWL Class
 
-`Workflow`
+[Workflow](https://www.commonwl.org/v1.2/Workflow.html#Workflow)
+
+### Requirements
+
+* [NetworkAccess](https://www.commonwl.org/v1.2/Workflow.html#NetworkAccess)
+* [InlineJavascriptRequirement](https://www.commonwl.org/v1.2/Workflow.html#InlineJavascriptRequirement)
+* [StepInputExpressionRequirement](https://www.commonwl.org/v1.2/Workflow.html#StepInputExpressionRequirement)
+* [SchemaDefRequirement](https://www.commonwl.org/v1.2/Workflow.html#SchemaDefRequirement)
 
 ### Inputs
 
@@ -273,9 +278,7 @@ convert-search \
 
 ### CWL Class
 
-```
-CommandLineTool
-```
+[CommandLineTool](https://www.commonwl.org/v1.2/CommandLineTool.html#CommandLineTool)
 
 ### Inputs
 
@@ -302,9 +305,7 @@ CommandLineTool
 
 ### CWL Class
 
-```
-CommandLineTool
-```
+[CommandLineTool](https://www.commonwl.org/v1.2/CommandLineTool.html#CommandLineTool)
 
 ### Inputs
 
@@ -343,9 +344,7 @@ CommandLineTool
 
 ### CWL Class
 
-```
-CommandLineTool
-```
+[CommandLineTool](https://www.commonwl.org/v1.2/CommandLineTool.html#CommandLineTool)
 
 ### Inputs
 
