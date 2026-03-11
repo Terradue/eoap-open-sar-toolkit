@@ -335,7 +335,7 @@ $graph:
       InlineJavascriptRequirement: {}
       StepInputExpressionRequirement: {}
       DockerRequirement:
-        dockerPull: docker.io/library/convert-search:latest 
+        dockerPull: ghcr.io/terradue/eoap-open-sar-toolkit/convert-search:latest-dev
       SchemaDefRequirement:
         types:
           - $import: https://raw.githubusercontent.com/eoap/schemas/main/ogc.yaml
@@ -564,7 +564,7 @@ $graph:
 
     requirements:
       DockerRequirement:
-        dockerPull: ghcr.io/terradue/eoap-open-sar-toolkit/opensartoolkit:1.0.0
+        dockerPull: ghcr.io/terradue/eoap-open-sar-toolkit/open-sar-toolkit:latest-dev
       NetworkAccess:
         networkAccess: true
       ResourceRequirement:
@@ -649,7 +649,7 @@ $graph:
         
     requirements:
       DockerRequirement:
-        dockerPull: docker.io/library/stac-catalog:latest
+        dockerPull: ghcr.io/terradue/eoap-open-sar-toolkit/stac-catalog:latest-dev
       NetworkAccess:
         networkAccess: true
       ResourceRequirement:
