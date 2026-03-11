@@ -39,7 +39,7 @@ s:softwareRequirements:
 - https://www.python.org/
 
 # Current version of the software
-s:softwareVersion: 2.1.8
+s:softwareVersion: 2.1.9
 s:softwareHelp:
   '@type': s:CreativeWork
   s:name: DeveloperGuide 
@@ -190,6 +190,7 @@ $graph:
         in:
           search_results: discovery/search_output
           target_datetime: target_datetime
+          input_bbox: bbox
         out: [items]
       s1_subworkflow:
         run: "#s1_subworkflow"
@@ -305,6 +306,14 @@ $graph:
         type: File
         inputBinding:
           prefix: --search-results
+      input_bbox:
+        label: Area of interest
+        doc: AOI polygon (bbox field will be used for STAC bbox)
+        type: https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml#Polygon
+        inputBinding:
+          prefix: --input-bbox
+          valueFrom: $(self.bbox.join(","))
+
     outputs:
       items:
         type:
@@ -313,8 +322,13 @@ $graph:
         outputBinding:
           glob: items.json
           loadContents: true
-          outputEval: ${ return JSON.parse(self[0].contents); }
-
+          outputEval: |
+            ${
+              if (!self[0].contents || self[0].contents.trim() === "") {
+                return [];
+              }
+              return JSON.parse(self[0].contents);
+            }
     requirements: 
       NetworkAccess:
         networkAccess: true
@@ -329,7 +343,6 @@ $graph:
           - $import: https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml
           - $import: https://raw.githubusercontent.com/eoap/schemas/main/experimental/api-endpoint.yaml
           - $import: https://raw.githubusercontent.com/eoap/schemas/main/experimental/discovery.yaml
-
 
 # =====================================
 
