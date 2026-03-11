@@ -515,7 +515,7 @@ $graph:
 
     requirements:
       DockerRequirement:
-        dockerPull: cr.terradue.com/eo-services/opensartoolkit:1.0.0
+        dockerPull: ghcr.io/terradue/eoap-open-sar-toolkit/opensartoolkit:1.0.0
       NetworkAccess:
         networkAccess: true
       ResourceRequirement:

@@ -12,24 +12,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: build
-
+name: docs
 on:
   push:
-    branches: [develop, main]
+    branches:
+      - main
     tags:
       - 'v*'
-
+    
 jobs:
-  release:
-    uses: eoap/eoap-cwl-release-workflow/.github/workflows/release-cwl.yml@main
-    with:
-      tools: '["convert-search", "stac-catalog"]'
-      image-prefix: terradue/eoap-open-sar-toolkit
-      registry: ghcr.io
-      cwl-workflow-dir: cwl-workflow
-      cwl-tool-dir: command-line-tools
-      entrypoint: opensartoolkit
-    secrets:
-      registry-user: ${{ github.actor }}
-      registry-password: ${{ secrets.GITHUB_TOKEN }}
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout master
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.x
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.x
+      - run: pip install "mkdocs<2.0.0" mkdocs-material mkdocs-mermaid2-plugin mkdocs-jupyter jsonschema legacy-cgi 
+      - run: mkdocs gh-deploy --force

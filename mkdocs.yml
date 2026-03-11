@@ -1,0 +1,29 @@
+site_name: OpenSAR Toolkit
+site_description: OpenSAR Toolkit for processing SAR data
+site_url: https://terradue.github.io/eoap-opensar-toolkit/
+repo_url: https://github.com/terradue/eoap-opensar-toolkit
+repo_name: teradue/eoap-opensar-toolkit
+
+docs_dir: docs
+theme:
+    logo: imgs/icon-eoap.png
+    name: readthedocs
+
+    palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+
+plugins:
+  - search
+
+nav:
+  - Home: index.md
+  - OpenSAR Toolkit: opensartoolkit.md

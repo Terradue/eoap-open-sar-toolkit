@@ -95,8 +95,7 @@ tasks:
   generate-docs:
     desc: Generate documentation
     cmds:
-    - defer: rm -f docs/ml4floods/*.puml
+    - defer: rm -f docs/opensartoolkit/*.puml
     - |
-      uv run --no-cache --with "transpiler-mate>=0.30.0" transpiler-mate markdown --workflow-id ml4floods --output docs --code-repository $(git remote get-url origin) cwl-workflow/app-ml4floods.cwl
-      uv run --with cwl2puml cwl2puml --workflow-id ml4floods --output docs/ml4floods --convert-image --image-format svg cwl-workflow/app-ml4floods.cwl
-      
+      uv run --no-cache --with "transpiler-mate>=0.30.0" transpiler-mate markdown --workflow-id opensartoolkit --output docs --code-repository $(git remote get-url origin) cwl-workflow/open-sar-toolkit.cwl
+      uv run --with cwl2puml cwl2puml --workflow-id opensartoolkit --output docs/opensartoolkit --convert-image --image-format svg cwl-workflow/open-sar-toolkit.cwl
