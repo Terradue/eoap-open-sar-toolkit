@@ -49,6 +49,9 @@ tasks:
         sh: mktemp
     cmds:
       - defer: rm -f "{{.PARAMS_FILE}}"
+      - test -n "${CDSE_AWS_ACCESS_KEY_ID}" || (echo "CDSE_AWS_ACCESS_KEY_ID is not set" && exit 1)
+      - test -n "${CDSE_AWS_SECRET_ACCESS_KEY}" || (echo "CDSE_AWS_SECRET_ACCESS_KEY is not set" && exit 1)
+      - test -n "${CDSE_ENDPOINT_URL}" || (echo "CDSE_ENDPOINT_URL is not set" && exit 1)
       - task: build
       - |
         cat > "{{.PARAMS_FILE}}" <<'EOF'
@@ -66,11 +69,13 @@ tasks:
           bbox: [12.144804, 41.996186, 12.457839, 42.175561]
           coordinates: [[[12.144804, 41.996186],[12.457839, 41.996186],[12.457839, 42.175561],[12.144804, 42.175561],[12.144804, 41.996186]]]
         EOF
-        cwltool cwl-workflow/open-sar-toolkit.cwl#opensartoolkit "{{.PARAMS_FILE}}"
-
+        cwltool \
+          --preserve-environment CDSE_AWS_ACCESS_KEY_ID \
+          --preserve-environment CDSE_AWS_SECRET_ACCESS_KEY \
+          --preserve-environment CDSE_ENDPOINT_URL \
+          cwl-workflow/open-sar-toolkit.cwl#opensartoolkit "{{.PARAMS_FILE}}"
     silent: false
 
-   
   test:
     desc: Run tests
     cmds:
