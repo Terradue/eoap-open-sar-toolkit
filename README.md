@@ -73,6 +73,28 @@ Reads an input STAC catalog produced by the OST processing step, optionally crop
 
 See [command-line-tools/stac-catalog/README.md](/data/work/github-terradue/eoap-open-sar-toolkit/command-line-tools/stac-catalog/README.md).
 
+### Deployment
+Use the command below (the first one for copy & paste, the second one for better readability) to publish the Application Package to cr.terradue.com with `oras` manually (to be implemented in the CI).
+
+*Command for copy & paste*
+
+```bash
+oras push cr.terradue.com/app-packages/terradue/opensartoolkit:2.2.0 APEx/eoap-open-sar-toolkit/cwl-workflow/open-sar-toolkit.cwl:application/vnd.commonworkflowlanguage.cwl --artifact-type application/vnd.commonworkflowlanguage.cwl --annotation org.opencontainers.image.usedImages='["ghcr.io/terradue/eoap-open-sar-toolkit/convert-search:latest-dev","cr.terradue.com/seda/arvesto:0.6.3-develop","ghcr.io/terradue/eoap-open-sar-toolkit/opensartoolkit:1.0.0","ghcr.io/terradue/eoap-open-sar-toolkit/stac-catalog:latest-dev"]' --annotation org.opencontainers.image.version="2.2.0" --annotation org.opencontainers.image.source="https://github.com/Terradue/eoap-open-sar-toolkit.git"
+```
+
+*Command for better readability*
+```bash
+oras push \
+    cr.terradue.com/app-packages/terradue/opensartoolkit:2.2.0 \
+    APEx/eoap-open-sar-toolkit/cwl-workflow/open-sar-toolkit.cwl:application/vnd.commonworkflowlanguage.cwl \
+    --artifact-type application/vnd.commonworkflowlanguage.cwl \
+    --annotation org.opencontainers.image.usedImages='["ghcr.io/terradue/eoap-open-sar-toolkit/convert-search:latest-dev","cr.terradue.com/seda/arvesto:0.6.3-develop","ghcr.io/terradue/eoap-open-sar-toolkit/opensartoolkit:1.0.0","ghcr.io/terradue/eoap-open-sar-toolkit/stac-catalog:latest-dev"]' \       
+    --annotation org.opencontainers.image.version="2.2.0" \                                             
+    --annotation org.opencontainers.image.source="https://github.com/Terradue/eoap-open-sar-toolkit.git"
+```
+
+
+
 ## License
 
 This repository is distributed under the terms of the MIT license unless noted otherwise in individual assets or metadata.
