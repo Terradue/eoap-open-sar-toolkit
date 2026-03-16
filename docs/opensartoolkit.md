@@ -1,10 +1,10 @@
-# OpenSarToolkit v2.1.8
+# OpenSarToolkit v2.2.0
 
 Preprocessing an S1 image with OpenSarToolkit OST.
 
 > This software is licensed under the terms of the [Creative Commons Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/legalcode) license - SPDX short identifier: [CC-BY-4.0](https://spdx.org/licenses/CC-BY-4.0)
 >
-> 2026-03-10 - 2026-03-11T12:54:09.024 Copyright [Terradue Srl](mailto:info@terradue.com) - > [https://ror.org/0069cx113](https://ror.org/0069cx113)
+> 2026-03-10 - 2026-03-16T11:22:09.139 Copyright [Terradue Srl](mailto:info@terradue.com) - > [https://ror.org/0069cx113](https://ror.org/0069cx113)
 
 ## Project Team
 
@@ -71,12 +71,12 @@ DeveloperGuide can be found on [https://terradue.github.io/eoap-open-sar-toolkit
 
 | Id | Type | Label | Doc |
 |----|------|-------|-----|
-| `resolution` | `int` | Resolution | Resolution in metres |
-| `ard-type` | `[ enum ]` | ARD type | Type of analysis-ready data to produce |
-| `with-speckle-filter` | `[ enum ]` | Speckle filter | Whether to apply a speckle filter |
-| `resampling-method` | `[ enum ]` | Resampling method | Resampling method to use |
-| `target_datetime` | `https://raw.githubusercontent.com/eoap/schemas/main/string_format.yaml#DateTime` | Target datetime | Target datetime in ISO 8601 format |
-| `bbox` | `https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml#Polygon` | Area of interest | AOI polygon (bbox field will be used for STAC bbox) |
+| `resolution` | [int](https://www.commonwl.org/v1.2/Workflow.html#CWLType) | Resolution | Resolution in metres |
+| `ard-type` | One of:<ul><li>[enum](https://www.commonwl.org/v1.2/Workflow.html#InputEnumSchema):<ul><li>`OST_GTC`</li><li>`OST-RTC`</li><li>`CEOS`</li><li>`Earth-Engine`</li></ul></li></ul> | ARD type | Type of analysis-ready data to produce |
+| `with-speckle-filter` | One of:<ul><li>[enum](https://www.commonwl.org/v1.2/Workflow.html#InputEnumSchema):<ul><li>`APPLY-FILTER`</li><li>`NO-FILTER`</li></ul></li></ul> | Speckle filter | Whether to apply a speckle filter |
+| `resampling-method` | One of:<ul><li>[enum](https://www.commonwl.org/v1.2/Workflow.html#InputEnumSchema):<ul><li>`BILINEAR_INTERPOLATION`</li><li>`BICUBIC_INTERPOLATION`</li></ul></li></ul> | Resampling method | Resampling method to use |
+| `target_datetime` | [DateTime](https://raw.githubusercontent.com/eoap/schemas/main/string_format.yaml#DateTime) | Target datetime | Target datetime in ISO 8601 format |
+| `bbox` | [Polygon](https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml#Polygon) | Area of interest | AOI polygon (bbox field will be used for STAC bbox) |
 
 
 ### Steps
@@ -93,34 +93,46 @@ DeveloperGuide can be found on [https://terradue.github.io/eoap-open-sar-toolkit
 
 | Id | Type | Label | Doc |
 |----|------|-------|-----|
-| `output` | `Directory[]` | None | None |
+| `output` | [Directory](https://www.commonwl.org/v1.2/Workflow.html#Directory)`[]` | None | None |
 
 
 ### UML Diagrams
 
 
-#### UML `activity` diagram
+#### Activity diagram
 
-![opensartoolkit flow diagram](./opensartoolkit/activity.svg "opensartoolkit activity diagram")
+Learn more about the [Activity diagram](https://en.wikipedia.org/wiki/Activity_diagram) below.
 
-#### UML `component` diagram
+![opensartoolkit flow diagram](./opensartoolkit/activity.svg "opensartoolkit Activity diagram")
 
-![opensartoolkit flow diagram](./opensartoolkit/component.svg "opensartoolkit component diagram")
+#### Component diagram
 
-#### UML `class` diagram
+Learn more about the [Component diagram](https://en.wikipedia.org/wiki/Component_diagram) below.
 
-![opensartoolkit flow diagram](./opensartoolkit/class.svg "opensartoolkit class diagram")
+![opensartoolkit flow diagram](./opensartoolkit/component.svg "opensartoolkit Component diagram")
 
-#### UML `sequence` diagram
+#### Class diagram
 
-![opensartoolkit flow diagram](./opensartoolkit/sequence.svg "opensartoolkit sequence diagram")
+Learn more about the [Class diagram](https://en.wikipedia.org/wiki/Class_diagram) below.
 
-#### UML `state` diagram
+![opensartoolkit flow diagram](./opensartoolkit/class.svg "opensartoolkit Class diagram")
 
-![opensartoolkit flow diagram](./opensartoolkit/state.svg "opensartoolkit state diagram")
+#### Sequence diagram
+
+Learn more about the [Sequence diagram](https://en.wikipedia.org/wiki/Sequence_diagram) below.
+
+![opensartoolkit flow diagram](./opensartoolkit/sequence.svg "opensartoolkit Sequence diagram")
+
+#### State diagram
+
+Learn more about the [State diagram](https://en.wikipedia.org/wiki/State_diagram) below.
+
+![opensartoolkit flow diagram](./opensartoolkit/state.svg "opensartoolkit State diagram")
 
 
+### Run in step
 
+`build_search_request`
 
 
 
@@ -134,16 +146,14 @@ DeveloperGuide can be found on [https://terradue.github.io/eoap-open-sar-toolkit
 
 | Id | Option | Type |
 |----|------|-------|
-| `target_datetime` | `--target_datetime` | `https://raw.githubusercontent.com/eoap/schemas/main/string_format.yaml#DateTime` |
-| `bbox` | `--bbox` | `https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml#Polygon` |
-
+| `target_datetime` | `--target_datetime` | [DateTime](https://raw.githubusercontent.com/eoap/schemas/main/string_format.yaml#DateTime) |
+| `bbox` | `--bbox` | [Polygon](https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml#Polygon) |
 
 
 
 ### Run in step
 
-`build_search_request`
-
+`discovery`
 
 
 
@@ -157,8 +167,8 @@ DeveloperGuide can be found on [https://terradue.github.io/eoap-open-sar-toolkit
 
 | Id | Option | Type |
 |----|------|-------|
-| `api_endpoint` | `--api_endpoint` | `https://raw.githubusercontent.com/eoap/schemas/main/experimental/api-endpoint.yaml#APIEndpoint` |
-| `search_request` | `--search_request` | `https://raw.githubusercontent.com/eoap/schemas/main/experimental/discovery.yaml#STACSearchSettings` |
+| `api_endpoint` | `--api_endpoint` | [APIEndpoint](https://raw.githubusercontent.com/eoap/schemas/main/experimental/api-endpoint.yaml#APIEndpoint) |
+| `search_request` | `--search_request` | [STACSearchSettings](https://raw.githubusercontent.com/eoap/schemas/main/experimental/discovery.yaml#STACSearchSettings) |
 
 ### Execution usage example:
 
@@ -168,11 +178,9 @@ odata-client search $(inputs.api_endpoint.url.value) ${ const args = []; const c
 --search_request <SEARCH_REQUEST>
 ```
 
-
 ### Run in step
 
-`discovery`
-
+`convert_search`
 
 
 
@@ -186,22 +194,22 @@ odata-client search $(inputs.api_endpoint.url.value) ${ const args = []; const c
 
 | Id | Option | Type |
 |----|------|-------|
-| `target_datetime` | `--target-datetime` | `https://raw.githubusercontent.com/eoap/schemas/main/string_format.yaml#DateTime` |
-| `search_results` | `--search-results` | `File` |
+| `target_datetime` | `--target-datetime` | [DateTime](https://raw.githubusercontent.com/eoap/schemas/main/string_format.yaml#DateTime) |
+| `search_results` | `--search-results` | [File](https://www.commonwl.org/v1.2/Workflow.html#File) |
+| `input_bbox` | `--input-bbox` | [Polygon](https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml#Polygon) |
 
 ### Execution usage example:
 
 ```
 convert-search \
 --target-datetime <TARGET_DATETIME> \
---search-results <SEARCH_RESULTS>
+--search-results <SEARCH_RESULTS> \
+--input-bbox <INPUT_BBOX>
 ```
-
 
 ### Run in step
 
-`convert_search`
-
+`s1_subworkflow`
 
 
 
@@ -222,12 +230,12 @@ convert-search \
 
 | Id | Type | Label | Doc |
 |----|------|-------|-----|
-| `reference_ID` | `string` | Product reference ID | None |
-| `bbox` | `[ null, double[] ]` | Bounding Box | Bounding box [minx, miny, maxx, maxy] in the raster CRS |
-| `resolution` | `int` | Resolution | Resolution in metres |
-| `ard-type` | `[ enum ]` | ARD type | Type of analysis-ready data to produce |
-| `with-speckle-filter` | `[ enum ]` | Speckle filter | Whether to apply a speckle filter |
-| `resampling-method` | `[ enum ]` | Resampling method | Resampling method to use |
+| `reference_ID` | [string](https://www.commonwl.org/v1.2/Workflow.html#CWLType) | Product reference ID | None |
+| `bbox` | One of:<ul><li>[null](https://www.commonwl.org/v1.2/Workflow.html#CWLType)</li><li>[double](https://www.commonwl.org/v1.2/Workflow.html#CWLType)`[]`</li></ul> | Bounding Box | Bounding box [minx, miny, maxx, maxy] in the raster CRS |
+| `resolution` | [int](https://www.commonwl.org/v1.2/Workflow.html#CWLType) | Resolution | Resolution in metres |
+| `ard-type` | One of:<ul><li>[enum](https://www.commonwl.org/v1.2/Workflow.html#InputEnumSchema):<ul><li>`OST_GTC`</li><li>`OST-RTC`</li><li>`CEOS`</li><li>`Earth-Engine`</li></ul></li></ul> | ARD type | Type of analysis-ready data to produce |
+| `with-speckle-filter` | One of:<ul><li>[enum](https://www.commonwl.org/v1.2/Workflow.html#InputEnumSchema):<ul><li>`APPLY-FILTER`</li><li>`NO-FILTER`</li></ul></li></ul> | Speckle filter | Whether to apply a speckle filter |
+| `resampling-method` | One of:<ul><li>[enum](https://www.commonwl.org/v1.2/Workflow.html#InputEnumSchema):<ul><li>`BILINEAR_INTERPOLATION`</li><li>`BICUBIC_INTERPOLATION`</li></ul></li></ul> | Resampling method | Resampling method to use |
 
 
 ### Steps
@@ -243,34 +251,46 @@ convert-search \
 
 | Id | Type | Label | Doc |
 |----|------|-------|-----|
-| `ost_ard_cog` | `Directory` | OST ARD COG output | OST ARD COG output in a STAC catalog structure |
+| `ost_ard_cog` | [Directory](https://www.commonwl.org/v1.2/Workflow.html#Directory) | OST ARD COG output | OST ARD COG output in a STAC catalog structure |
 
 
 ### UML Diagrams
 
 
-#### UML `activity` diagram
+#### Activity diagram
 
-![s1_subworkflow flow diagram](./s1_subworkflow/activity.svg "s1_subworkflow activity diagram")
+Learn more about the [Activity diagram](https://en.wikipedia.org/wiki/Activity_diagram) below.
 
-#### UML `component` diagram
+![s1_subworkflow flow diagram](./s1_subworkflow/activity.svg "s1_subworkflow Activity diagram")
 
-![s1_subworkflow flow diagram](./s1_subworkflow/component.svg "s1_subworkflow component diagram")
+#### Component diagram
 
-#### UML `class` diagram
+Learn more about the [Component diagram](https://en.wikipedia.org/wiki/Component_diagram) below.
 
-![s1_subworkflow flow diagram](./s1_subworkflow/class.svg "s1_subworkflow class diagram")
+![s1_subworkflow flow diagram](./s1_subworkflow/component.svg "s1_subworkflow Component diagram")
 
-#### UML `sequence` diagram
+#### Class diagram
 
-![s1_subworkflow flow diagram](./s1_subworkflow/sequence.svg "s1_subworkflow sequence diagram")
+Learn more about the [Class diagram](https://en.wikipedia.org/wiki/Class_diagram) below.
 
-#### UML `state` diagram
+![s1_subworkflow flow diagram](./s1_subworkflow/class.svg "s1_subworkflow Class diagram")
 
-![s1_subworkflow flow diagram](./s1_subworkflow/state.svg "s1_subworkflow state diagram")
+#### Sequence diagram
+
+Learn more about the [Sequence diagram](https://en.wikipedia.org/wiki/Sequence_diagram) below.
+
+![s1_subworkflow flow diagram](./s1_subworkflow/sequence.svg "s1_subworkflow Sequence diagram")
+
+#### State diagram
+
+Learn more about the [State diagram](https://en.wikipedia.org/wiki/State_diagram) below.
+
+![s1_subworkflow flow diagram](./s1_subworkflow/state.svg "s1_subworkflow State diagram")
 
 
+### Run in step
 
+`stage_in`
 
 
 
@@ -284,7 +304,7 @@ convert-search \
 
 | Id | Option | Type |
 |----|------|-------|
-| `reference_ID` | `--reference_ID` | `string` |
+| `reference_ID` | `--reference_ID` | [string](https://www.commonwl.org/v1.2/Workflow.html#CWLType) |
 
 ### Execution usage example:
 
@@ -293,11 +313,9 @@ convert-search \
 --reference_ID <REFERENCE_ID>
 ```
 
-
 ### Run in step
 
-`stage_in`
-
+`run_script`
 
 
 
@@ -311,13 +329,13 @@ convert-search \
 
 | Id | Option | Type |
 |----|------|-------|
-| `input` | `--input` | `Directory` |
-| `resolution` | `--resolution` | `int` |
-| `ard-type` | `--ard-type` | `[ enum ]` |
-| `with-speckle-filter` | `--with-speckle-filter` | `[ enum ]` |
-| `resampling-method` | `--resampling-method` | `[ enum ]` |
-| `cdse-user` | `--cdse-user` | `[ null, string ]` |
-| `cdse-password` | `--cdse-password` | `[ null, string ]` |
+| `input` | `--input` | [Directory](https://www.commonwl.org/v1.2/Workflow.html#Directory) |
+| `resolution` | `--resolution` | [int](https://www.commonwl.org/v1.2/Workflow.html#CWLType) |
+| `ard-type` | `--ard-type` | One of:<ul><li>[enum](https://www.commonwl.org/v1.2/Workflow.html#CommandInputEnumSchema):<ul><li>`OST_GTC`</li><li>`OST-RTC`</li><li>`CEOS`</li><li>`Earth-Engine`</li></ul></li></ul> |
+| `with-speckle-filter` | `--with-speckle-filter` | One of:<ul><li>[enum](https://www.commonwl.org/v1.2/Workflow.html#CommandInputEnumSchema):<ul><li>`APPLY-FILTER`</li><li>`NO-FILTER`</li></ul></li></ul> |
+| `resampling-method` | `--resampling-method` | One of:<ul><li>[enum](https://www.commonwl.org/v1.2/Workflow.html#CommandInputEnumSchema):<ul><li>`BILINEAR_INTERPOLATION`</li><li>`BICUBIC_INTERPOLATION`</li></ul></li></ul> |
+| `cdse-user` | `--cdse-user` | One of:<ul><li>[null](https://www.commonwl.org/v1.2/Workflow.html#CWLType)</li><li>[string](https://www.commonwl.org/v1.2/Workflow.html#CWLType)</li></ul> |
+| `cdse-password` | `--cdse-password` | One of:<ul><li>[null](https://www.commonwl.org/v1.2/Workflow.html#CWLType)</li><li>[string](https://www.commonwl.org/v1.2/Workflow.html#CWLType)</li></ul> |
 
 ### Execution usage example:
 
@@ -332,11 +350,9 @@ convert-search \
 (--cdse-password <CDSE-PASSWORD>)
 ```
 
-
 ### Run in step
 
-`run_script`
-
+`to-stac-catalog`
 
 
 
@@ -350,9 +366,9 @@ convert-search \
 
 | Id | Option | Type |
 |----|------|-------|
-| `input_tif` | `--input-tif` | `Directory` |
-| `reference_ID` | `--reference-id` | `string` |
-| `bbox` | `--bbox` | `[ null, double[] ]` |
+| `input_tif` | `--input-tif` | [Directory](https://www.commonwl.org/v1.2/Workflow.html#Directory) |
+| `reference_ID` | `--reference-id` | [string](https://www.commonwl.org/v1.2/Workflow.html#CWLType) |
+| `bbox` | `--bbox` | One of:<ul><li>[null](https://www.commonwl.org/v1.2/Workflow.html#CWLType)</li><li>[double](https://www.commonwl.org/v1.2/Workflow.html#CWLType)`[]`</li></ul> |
 
 ### Execution usage example:
 
@@ -364,12 +380,4 @@ stac-catalog \
 ```
 
 
-### Run in step
 
-`to-stac-catalog`
-
-
-
-### Run in step
-
-`s1_subworkflow`
