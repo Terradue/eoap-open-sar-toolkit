@@ -109,6 +109,6 @@ tasks:
     cmds:
     - defer: rm -f docs/*/*.puml
     - |
-      uv run --no-cache --with "transpiler-mate>=0.32.0" transpiler-mate markdown --workflow-id opensartoolkit --output docs --code-repository $(git remote get-url origin) cwl-workflow/open-sar-toolkit.cwl
+      uv run --no-cache --with "transpiler-mate>=0.38.0" transpiler-mate markdown --workflow-id opensartoolkit --output docs --code-repository $(git remote get-url origin) cwl-workflow/open-sar-toolkit.cwl
       uv run --with cwl2puml cwl2puml --workflow-id opensartoolkit --output docs/opensartoolkit --convert-image --image-format svg cwl-workflow/open-sar-toolkit.cwl
       uv run --with cwl2puml cwl2puml --workflow-id s1_subworkflow --output docs/s1_subworkflow --convert-image --image-format svg cwl-workflow/open-sar-toolkit.cwl

@@ -4,7 +4,7 @@ Preprocessing an S1 image with OpenSarToolkit OST.
 
 > This software is licensed under the terms of the [Creative Commons Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/legalcode) license - SPDX short identifier: [CC-BY-4.0](https://spdx.org/licenses/CC-BY-4.0)
 >
-> 2026-03-10 - 2026-03-16T17:18:21.638 Copyright [Terradue Srl](mailto:info@terradue.com) - > [https://ror.org/0069cx113](https://ror.org/0069cx113)
+> 2026-03-10 - 2026-03-30T13:19:28.307 Copyright [Terradue Srl](mailto:info@terradue.com) - > [https://ror.org/0069cx113](https://ror.org/0069cx113)
 
 ## Project Team
 
@@ -94,6 +94,21 @@ DeveloperGuide can be found on [https://terradue.github.io/eoap-open-sar-toolkit
 | Id | Type | Label | Doc |
 |----|------|-------|-----|
 | `output` | `array` of [Directory](https://www.commonwl.org/v1.2/Workflow.html#Directory) | None | None |
+
+
+### OGC API - Processes
+
+When `opensartoolkit` [Workflow](https://www.commonwl.org/v1.2/Workflow.html#Workflow) is exposed through [OGC API - Processes - Part 1: Core](https://docs.ogc.org/is/18-062r2/18-062r2.html), `inputs` and `outputs` fields below represent the interface of the [getProcessDescription](https://developer.ogc.org/api/processes/index.html#tag/ProcessDescription/operation/getProcessDescription) API. 
+
+
+
+#### Inputs
+
+![opensartoolkit OGC API Processes JSON Inputs schema](./opensartoolkit/ogc_processes_inputs.svg "opensartoolkit  diagram")
+
+#### Outputs
+
+![opensartoolkit OGC API Processes JSON Outputs schema](./opensartoolkit/ogc_processes_outputs.svg "opensartoolkit  diagram")
 
 
 ### UML Diagrams
@@ -252,6 +267,21 @@ convert-search \
 | Id | Type | Label | Doc |
 |----|------|-------|-----|
 | `ost_ard_cog` | [Directory](https://www.commonwl.org/v1.2/Workflow.html#Directory) | OST ARD COG output | OST ARD COG output in a STAC catalog structure |
+
+
+### OGC API - Processes
+
+When `s1_subworkflow` [Workflow](https://www.commonwl.org/v1.2/Workflow.html#Workflow) is exposed through [OGC API - Processes - Part 1: Core](https://docs.ogc.org/is/18-062r2/18-062r2.html), `inputs` and `outputs` fields below represent the interface of the [getProcessDescription](https://developer.ogc.org/api/processes/index.html#tag/ProcessDescription/operation/getProcessDescription) API. 
+
+
+
+#### Inputs
+
+![s1_subworkflow OGC API Processes JSON Inputs schema](./s1_subworkflow/ogc_processes_inputs.svg "s1_subworkflow  diagram")
+
+#### Outputs
+
+![s1_subworkflow OGC API Processes JSON Outputs schema](./s1_subworkflow/ogc_processes_outputs.svg "s1_subworkflow  diagram")
 
 
 ### UML Diagrams
