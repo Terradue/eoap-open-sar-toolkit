@@ -1,6 +1,5 @@
 from pathlib import Path
 from pystac.extensions.raster import (
-        RasterExtension,
         RasterBand,
         Statistics,
         DataType,
@@ -175,47 +174,6 @@ def build_stac_catalog(input_dir: Path, reference_id: str, bbox=None) -> Path:
     # Add asset to item 
     out_item.add_asset("ost-ard-cog", out_asset)
 
-    RasterExtension.ext(out_asset, add_if_missing=True).apply(
-        bands=[
-            RasterBand.create(
-                data_type=DataType.FLOAT32,
-                nodata=0,
-                unit="dB",
-                statistics=Statistics.create(
-                    minimum=-70.0,
-                    maximum=28.224674224854,
-                    mean=-8.6015148860453,
-                    stddev=4.1917195267694,
-                    valid_percent=100.0,
-                ),
-            ),
-            RasterBand.create(
-                data_type=DataType.FLOAT32,
-                nodata=0,
-                unit="dB",
-                statistics=Statistics.create(
-                    minimum=-70.0,
-                    maximum=22.368135452271,
-                    mean=-15.133148870931,
-                    stddev=4.3452743842165,
-                    valid_percent=100.0,
-                ),
-            ),
-            RasterBand.create(
-                data_type=DataType.FLOAT32,
-                nodata=0,
-                # Unit left unset intentionally: this band needs confirmation
-                statistics=Statistics.create(
-                    minimum=-91893.1640625,
-                    maximum=420947.46875,
-                    mean=5.6492081157769,
-                    stddev=212.18078148976,
-                    valid_percent=100.0,
-                ),
-            ),
-        ]
-    )
-
     minx, miny, maxx, maxy = map(float, out_bounds)
     out_item.bbox = [minx, miny, maxx, maxy]
     out_item.geometry = {
@@ -231,12 +189,19 @@ def build_stac_catalog(input_dir: Path, reference_id: str, bbox=None) -> Path:
         ],
     }
 
+    # ---------------------------
     # Add renders to the Item. Note that PySTAC Render.create supports standard render fields, but not bidx.
     # For a single multiband asset, add bidx manually for eg TiTiler/rio-tiler-style clients.
+    
+    # Define rescale ranges
+    rescale_copol = [[-20, 0]]
+    rescale_crosspol = [[-26, -5]]
+    rescale_ratio = [[0, 12]]
+    
     ost_sar_rgb = Render.create(
         assets=["ost-ard-cog"],
         title="OST SAR RGB composite",
-        rescale=[[-22, 2], [-28, -4], [0, 12]],
+        rescale=[rescale_copol, rescale_crosspol, rescale_ratio],
         nodata=0,
         resampling="nearest",
     )
@@ -245,7 +210,7 @@ def build_stac_catalog(input_dir: Path, reference_id: str, bbox=None) -> Path:
     copol_mono = Render.create(
         assets=["ost-ard-cog"],
         title="Co-pol backscatter (dB)",
-        rescale=[[-22, 2]],
+        rescale=[rescale_copol],
         nodata=0,
         colormap_name="grayscale",
         resampling="nearest",
@@ -255,7 +220,7 @@ def build_stac_catalog(input_dir: Path, reference_id: str, bbox=None) -> Path:
     crosspol_mono = Render.create(
         assets=["ost-ard-cog"],
         title="Cross-pol backscatter (dB)",
-        rescale=[[-28, -4]],
+        rescale=[rescale_crosspol],
         nodata=0,
         colormap_name="grayscale",
         resampling="nearest",
@@ -265,7 +230,7 @@ def build_stac_catalog(input_dir: Path, reference_id: str, bbox=None) -> Path:
     ratio_mono = Render.create(
         assets=["ost-ard-cog"],
         title="Co/Cross ratio",
-        rescale=[[0, 12]],
+        rescale=[rescale_ratio],
         nodata=0,
         colormap_name="grayscale",
         resampling="nearest",

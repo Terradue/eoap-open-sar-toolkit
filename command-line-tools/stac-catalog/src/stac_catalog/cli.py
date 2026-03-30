@@ -29,10 +29,7 @@ from stac_catalog.process import build_stac_catalog
 def main(input_tif, reference_id, bbox):
     click.echo(f"Input directory: {input_tif}")
     click.echo(f"Reference ID: {reference_id}")
-    click.echo(f"Bounding box: {bbox}")
-    
-    print("TESTING, WIP")
-    
+    click.echo(f"Bounding box: {bbox}")    
     output_dir = build_stac_catalog(input_tif.resolve(), reference_id, bbox=bbox)
     click.echo(f"Output directory: {output_dir}")
 
