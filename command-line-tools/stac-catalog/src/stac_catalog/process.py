@@ -196,7 +196,7 @@ def build_stac_catalog(input_dir: Path, reference_id: str, bbox=None) -> Path:
     # Define rescale ranges
     rescale_copol = [-20, 0]
     rescale_crosspol = [-26, -5]
-    rescale_ratio = [0, 12]
+    rescale_ratio = [2, 12]
     
     ost_sar_rgb = Render.create(
         assets=["ost-ard-cog"],

@@ -39,7 +39,7 @@ s:softwareRequirements:
 - https://www.python.org/
 
 # Current version of the software
-s:softwareVersion: 2.2.0
+s:softwareVersion: 2.2.1
 s:softwareHelp:
   '@type': s:CreativeWork
   s:name: DeveloperGuide 
@@ -157,8 +157,10 @@ $graph:
         outputSource: 
           - s1_subworkflow/ost_ard_cog
         type: 
-          type: array
-          items: Directory
+          - Directory
+          - Directory[]
+          # type: array
+          # items: Directory
     steps:
       build_search_request:
         run: "#build_search_request"
