@@ -102,7 +102,6 @@ $graph:
     requirements: 
       NetworkAccess:
         networkAccess: true
-      ScatterFeatureRequirement: {}
       SubworkflowFeatureRequirement: {}
       StepInputExpressionRequirement: {}
       InlineJavascriptRequirement: {}
@@ -154,13 +153,11 @@ $graph:
         type: https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml#Polygon
     outputs:
       output:
-        outputSource: 
-          - s1_subworkflow/ost_ard_cog
-        type: 
-          - Directory
-          - Directory[]
-          # type: array
-          # items: Directory
+        label: OST ARD COG output
+        doc: OST ARD COG output in a STAC catalog structure
+        type: Directory
+        outputSource: s1_subworkflow/ost_ard_cog
+
     steps:
       build_search_request:
         run: "#build_search_request"
@@ -198,9 +195,10 @@ $graph:
         run: "#s1_subworkflow"
         label: Sub-workflow to process searched S1 data
         doc: Sub-workflow to process searched S1 data
-        scatter: reference_ID
         in:
-          reference_ID: convert_search/items
+          reference_ID: 
+            source: convert_search/items
+            valueFrom: $(self[0])
           bbox:
             source: bbox
             valueFrom: $(self.bbox)

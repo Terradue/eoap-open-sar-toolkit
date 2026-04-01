@@ -194,9 +194,9 @@ def build_stac_catalog(input_dir: Path, reference_id: str, bbox=None) -> Path:
     # For a single multiband asset, add bidx manually for eg TiTiler/rio-tiler-style clients.
     
     # Define rescale ranges
-    rescale_copol = [-20, 0]
-    rescale_crosspol = [-26, -5]
-    rescale_ratio = [2, 12]
+    rescale_copol = [-20, 0] # based on standard co-polarised VV-HH ranges  
+    rescale_crosspol = [-26, -5] # based on standard cross-polarised VH-HV ranges  
+    rescale_ratio = [2, 12] # based on 5% - 95% percentile of the sampled S1 scene
     
     ost_sar_rgb = Render.create(
         assets=["ost-ard-cog"],
@@ -209,7 +209,7 @@ def build_stac_catalog(input_dir: Path, reference_id: str, bbox=None) -> Path:
 
     copol_mono = Render.create(
         assets=["ost-ard-cog"],
-        title="Co-pol backscatter (dB)",
+        title="Co-polarisation backscatter (dB)",
         rescale=[rescale_copol],
         nodata=0,
         colormap_name="grayscale",
@@ -219,7 +219,7 @@ def build_stac_catalog(input_dir: Path, reference_id: str, bbox=None) -> Path:
 
     crosspol_mono = Render.create(
         assets=["ost-ard-cog"],
-        title="Cross-pol backscatter (dB)",
+        title="Cross-polarisation backscatter (dB)",
         rescale=[rescale_crosspol],
         nodata=0,
         colormap_name="grayscale",

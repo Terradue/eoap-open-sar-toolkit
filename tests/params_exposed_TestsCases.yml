@@ -1,5 +1,5 @@
 resolution: 100
-ard-type: 'OST_GTC'
+ard-type: 'OST-RTC' # 'OST_GTC'
 with-speckle-filter: "NO-FILTER"
 resampling-method: 'BILINEAR_INTERPOLATION' # 'BICUBIC_INTERPOLATION'
 
