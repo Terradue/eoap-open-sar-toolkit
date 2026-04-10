@@ -1,10 +1,10 @@
-# OpenSarToolkit v2.2.0
+# OpenSarToolkit v2.2.1
 
 Preprocessing an S1 image with OpenSarToolkit OST.
 
 > This software is licensed under the terms of the [Creative Commons Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/legalcode) license - SPDX short identifier: [CC-BY-4.0](https://spdx.org/licenses/CC-BY-4.0)
 >
-> 2026-03-10 - 2026-03-30T13:19:28.307 Copyright [Terradue Srl](mailto:info@terradue.com) - > [https://ror.org/0069cx113](https://ror.org/0069cx113)
+> 2026-03-10 - 2026-04-10T11:50:46.165 Copyright [Terradue Srl](mailto:info@terradue.com) - > [https://ror.org/0069cx113](https://ror.org/0069cx113)
 
 ## Project Team
 
@@ -61,7 +61,6 @@ DeveloperGuide can be found on [https://terradue.github.io/eoap-open-sar-toolkit
 ### Requirements
 
 * [NetworkAccess](https://www.commonwl.org/v1.2/Workflow.html#NetworkAccess)
-* [ScatterFeatureRequirement](https://www.commonwl.org/v1.2/Workflow.html#ScatterFeatureRequirement)
 * [SubworkflowFeatureRequirement](https://www.commonwl.org/v1.2/Workflow.html#SubworkflowFeatureRequirement)
 * [StepInputExpressionRequirement](https://www.commonwl.org/v1.2/Workflow.html#StepInputExpressionRequirement)
 * [InlineJavascriptRequirement](https://www.commonwl.org/v1.2/Workflow.html#InlineJavascriptRequirement)
@@ -93,7 +92,7 @@ DeveloperGuide can be found on [https://terradue.github.io/eoap-open-sar-toolkit
 
 | Id | Type | Label | Doc |
 |----|------|-------|-----|
-| `output` | `array` of [Directory](https://www.commonwl.org/v1.2/Workflow.html#Directory) | None | None |
+| `output` | [Directory](https://www.commonwl.org/v1.2/Workflow.html#Directory) | OST ARD COG output | OST ARD COG output in a STAC catalog structure |
 
 
 ### OGC API - Processes
