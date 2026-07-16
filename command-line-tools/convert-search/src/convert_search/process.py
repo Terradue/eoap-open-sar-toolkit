@@ -31,9 +31,9 @@ def _parse_input_bbox(input_bbox: str) -> tuple[float, float, float, float]:
     return minx, miny, maxx, maxy
 
 
-def _extract_processing_datetime(feature: dict) -> datetime | None:
+def _extract_acquisition_datetime(feature: dict) -> datetime | None:
     props = feature.get("properties", {})
-    dt_str = props.get("processing:datetime")
+    dt_str = props.get("start_datetime")
     if not dt_str:
         return None
 
@@ -98,8 +98,8 @@ def select_best_candidate(
         if not candidate_id:
             continue
 
-        processing_dt = _extract_processing_datetime(feature)
-        if processing_dt is None:
+        acquisition_dt = _extract_acquisition_datetime(feature)
+        if acquisition_dt is None:
             continue
 
         # Get scene geometry
@@ -110,19 +110,19 @@ def select_best_candidate(
 
         coverage_pct = _compute_bbox_coverage_pct(scene_geom=scene_geom, user_geom=user_geom)
         distance = _compute_centroid_distance(scene_geom=scene_geom, user_geom=user_geom)
-        delta_seconds = abs((processing_dt - target_dt).total_seconds())
+        delta_seconds = abs((acquisition_dt - target_dt).total_seconds())
 
         print(
             f"Candidate {candidate_id}: "
             f"bbox coverage = {coverage_pct:.2f}% | "
-            f"datetime = {processing_dt.strftime('%Y-%m-%d')} | "
+            f"datetime = {acquisition_dt.strftime('%Y-%m-%d')} | "
             f"delta to target datetime = {delta_seconds/3600/24:.2f} days"
         )
 
         # Ranking:
         # 1) highest bbox coverage first
         # 2) closest to geometry centroid
-        # 3) closest processing datetime second
+        # 3) closest acquisition datetime second
         key = (-coverage_pct, distance, delta_seconds, candidate_id)
 
         if best_key is None or key < best_key:
@@ -145,8 +145,8 @@ def select_matching_features(
         if not feature_id:
             continue
 
-        processing_dt = _extract_processing_datetime(feature)
-        if processing_dt is None:
+        acquisition_dt = _extract_acquisition_datetime(feature)
+        if acquisition_dt is None:
             continue
 
         properties = feature.get("properties", {})
@@ -159,7 +159,7 @@ def select_matching_features(
         # Create feature list with condensed information
         simple_feature = {
             "id": feature_id,
-            "datetime": processing_dt,
+            "datetime": acquisition_dt,
             "orbit_direction": orbit_direction,
             "relative_orbit": relative_orbit,
             "geometry": feature.get("geometry"),
@@ -172,15 +172,12 @@ def select_matching_features(
     if not reference_feature:
         raise ValueError("Reference feature '{reference}' not in result")
     
-    print(reference_feature)
-
     features.sort(key=lambda feature: abs(feature["datetime"] - target_dt))
 
     matching_features = []
     for feature in features:
         if feature["orbit_direction"] == reference_feature["orbit_direction"]:
             matching_features.append(feature["id"])
-            print("{0} {1} {2}".format(feature["id"], feature["relative_orbit"], feature["orbit_direction"]))
         
     return matching_features
 
