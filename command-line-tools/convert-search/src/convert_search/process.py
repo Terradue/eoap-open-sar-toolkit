@@ -58,7 +58,7 @@ def _compute_centroid_distance(scene_geom: BaseGeometry, user_geom: Polygon) -> 
         user_geom_centroid.x,
         user_geom_centroid.y, 
     )
-    return distance_m / 1000    
+    return distance_m / 1000
 
 
 def extract_candidate_id(feature: dict) -> str | None:
@@ -78,7 +78,7 @@ def _find_reference_feature(reference: str, search_results: dict) -> dict|None:
         if feature.get("id") == reference:
             return feature
     return None
-    
+
 
 def select_best_candidate(
     search_results: dict, target_datetime: str, input_bbox: str
@@ -115,7 +115,8 @@ def select_best_candidate(
         print(
             f"Candidate {candidate_id}: "
             f"bbox coverage = {coverage_pct:.2f}% | "
-            f"datetime = {acquisition_dt.strftime('%Y-%m-%d')} | "
+            f"centroid distance = {distance:.2f} km | "
+            f"datetime = {acquisition_dt.strftime('%Y-%m-%dT%H:%M:%S')} | "
             f"delta to target datetime = {delta_seconds/3600/24:.2f} days"
         )
 
@@ -155,7 +156,7 @@ def select_matching_features(
 
         if relative_orbit is None or orbit_direction is None:
             continue
-        
+
         # Create feature list with condensed information
         simple_feature = {
             "id": feature_id,
@@ -171,14 +172,19 @@ def select_matching_features(
 
     if not reference_feature:
         raise ValueError("Reference feature '{reference}' not in result")
-    
+
     features.sort(key=lambda feature: abs(feature["datetime"] - target_dt))
 
     matching_features = []
     for feature in features:
         if feature["orbit_direction"] == reference_feature["orbit_direction"]:
             matching_features.append(feature["id"])
-        
+            print(
+                f"Matching feature {feature["id"]}: "
+                f"orbit = {feature["relative_orbit"]} ({feature["orbit_direction"]}) | "
+                f"datetime = {feature["datetime"].strftime('%Y-%m-%dT%H:%M:%S')}"
+            )
+
     return matching_features
 
 
@@ -188,12 +194,17 @@ def convert_search_results(
     input_bbox: str,
     reference: str|None = None,
 ) -> list[str]:
+    print(f"search_results_path: {search_results_path}")
+    print(f"target_datetime: {target_datetime}")
+    print(f"input_bbox: {input_bbox}")
+    print(f"reference: {reference}")
+
     search_results = json.loads(search_results_path.read_text(encoding="utf-8"))
 
     if reference:
         # If reference is given, select matching features
         return select_matching_features(search_results, reference, target_datetime)
-    
+
     else:
         # If no reference is given, only search the best candidate
         return select_best_candidate(search_results, target_datetime, input_bbox)
