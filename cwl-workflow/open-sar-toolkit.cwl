@@ -89,22 +89,36 @@ s:contributor:
     s:familyName: Vaccari
     s:givenName: Simone
     s:identifier: https://orcid.org/0000-0002-2757-4165
+- '@type': s:Role
+  s:roleName: Researcher
+  s:additionalType: http://purl.org/spar/datacite/Researcher
+  s:contributor:
+    '@type': s:Person
+    s:affiliation:
+      '@type': s:Organization
+      s:name: Terradue Srl
+      s:identifier: https://ror.org/0069cx113
+    s:email: frank.loeschau@terradue.com
+    s:familyName: Löschau
+    s:givenName: Frank
+    s:identifier: https://orcid.org/0000-0002-2757-4165
 
 
 # =============
 # CWL Workflow 
 # =============
 $graph:
-  - label: OpenSarToolkit
+  - id: opensartoolkit
     class: Workflow
+    label: OpenSarToolkit
     doc: Preprocessing an S1 image with OST
-    id: opensartoolkit
     requirements: 
       NetworkAccess:
         networkAccess: true
       SubworkflowFeatureRequirement: {}
       StepInputExpressionRequirement: {}
       InlineJavascriptRequirement: {}
+      ScatterFeatureRequirement: {}
       SchemaDefRequirement:
         types:
           - $import: https://raw.githubusercontent.com/eoap/schemas/main/ogc.yaml
@@ -147,15 +161,31 @@ $graph:
         label: Target datetime
         doc: Target datetime in ISO 8601 format
         type: https://raw.githubusercontent.com/eoap/schemas/main/string_format.yaml#DateTime
+      days_before:
+        label: Selection period end (days before target_datetime)
+        doc: Number of days (integer)
+        type: int?
+      days_after:
+        label: Selection period end (days after target_datetime)
+        doc: Number of days (integer)
+        type: int?
       bbox:
         label: Area of interest
         doc: AOI polygon (bbox field will be used for STAC bbox)
         type: https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml#Polygon
+      reference:
+        label: Reference product ID
+        doc: Sentinel-1 identifier or CDSE UID of initial product (optional)
+        type: string?
+      max_output:
+        label: Maximum number of output items
+        doc: Maximum number of output items (for debug purposes only)
+        type: int?
     outputs:
       output:
         label: OST ARD COG output
         doc: OST ARD COG output in a STAC catalog structure
-        type: Directory
+        type: Directory[]
         outputSource: s1_subworkflow/ost_ard_cog
 
     steps:
@@ -164,7 +194,10 @@ $graph:
         label: Build search_request and add datetime-interval
         in:
           target_datetime: target_datetime
+          days_before: days_before
+          days_after: days_after
           bbox: bbox
+          reference: reference
         out: [search_request_norm]
       discovery:
         label: OData API discovery
@@ -190,15 +223,14 @@ $graph:
           search_results: discovery/search_output
           target_datetime: target_datetime
           input_bbox: bbox
+          reference: reference
         out: [items]
       s1_subworkflow:
         run: "#s1_subworkflow"
         label: Sub-workflow to process searched S1 data
         doc: Sub-workflow to process searched S1 data
         in:
-          reference_ID: 
-            source: convert_search/items
-            valueFrom: $(self[0])
+          reference_id: convert_search/items
           bbox:
             source: bbox
             valueFrom: $(self.bbox)
@@ -207,6 +239,8 @@ $graph:
           with-speckle-filter: with-speckle-filter
           resampling-method: resampling-method
         out: [ost_ard_cog]
+        scatter: reference_id
+        scatterMethod: dotproduct
         
 # =====================================
  
@@ -229,10 +263,22 @@ $graph:
         label: Target datetime
         doc: Target datetime in ISO 8601 format
         type: https://raw.githubusercontent.com/eoap/schemas/main/string_format.yaml#DateTime
+      days_before:
+        label: Selection period end (days before target_datetime)
+        doc: Number of days (integer)
+        type: int?
+      days_after:
+        label: Selection period end (days after target_datetime)
+        doc: Number of days (integer)
+        type: int?
       bbox:
         label: Area of interest
         doc: AOI polygon (bbox field will be used for STAC bbox)
         type: https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml#Polygon
+      reference:
+        label: Reference product ID
+        doc: Sentinel-1 identifier or CDSE UID of initial product (optional)
+        type: string?
     outputs:
       search_request_norm: 
         type: https://raw.githubusercontent.com/eoap/schemas/main/experimental/discovery.yaml#STACSearchSettings
@@ -271,13 +317,19 @@ $graph:
         if (Number.isNaN(t)) throw new Error("Invalid datetime: " + dt);
 
         const iso = (ms) => new Date(ms).toISOString().replace(/\.\d+Z$/, "Z");
+
+        // Increase search period if reference is set
+        const days_before = (inputs.reference ? inputs.days_before : 0) || 0;
+        const days_after = (inputs.reference ? inputs.days_after : 0) || 0;
         const interval = {
-          start: { value: iso(t - 6 * 864e5) },
-          end:   { value: iso(t + 6 * 864e5) }
+          start: { value: iso(t - (6 + days_before) * 864e5) },
+          end:   { value: iso(t + (6 + days_after) * 864e5) }
         };
 
         sr["datetime-interval"] = interval;
         sr.datetime_interval = interval; // keep alias for compatibility
+
+        sr["max-items"] = 500
 
         console.error("SEARCH_REQUEST BUILT SUCCESSFULLY");
         console.error(JSON.stringify(sr, null, 2));
@@ -313,6 +365,12 @@ $graph:
         inputBinding:
           prefix: --input-bbox
           valueFrom: $(self.bbox.join(","))
+      reference:
+        label: Reference product ID
+        doc: Sentinel-1 identifier or CDSE UID of initial product (optional)
+        type: string?
+        inputBinding:
+          prefix: --reference
 
     outputs:
       items:
@@ -336,6 +394,7 @@ $graph:
       StepInputExpressionRequirement: {}
       DockerRequirement:
         dockerPull: ghcr.io/terradue/eoap-open-sar-toolkit/convert-search:latest-dev
+        # dockerPull: convert-search:local-test
       SchemaDefRequirement:
         types:
           - $import: https://raw.githubusercontent.com/eoap/schemas/main/ogc.yaml
@@ -364,7 +423,7 @@ $graph:
           - $import: https://raw.githubusercontent.com/eoap/schemas/main/experimental/api-endpoint.yaml
           - $import: https://raw.githubusercontent.com/eoap/schemas/main/experimental/discovery.yaml
     inputs:
-      reference_ID:
+      reference_id:
         label: Product reference ID
         type: string
       bbox:
@@ -415,7 +474,7 @@ $graph:
         label: Stage-in S1 data 
         doc: Stage-in S1 data with Arvesto
         in:
-          reference_ID: reference_ID
+          reference_id: reference_id
         run: "#stage-in"
         out: [staged]
       run_script:
@@ -432,7 +491,7 @@ $graph:
         in:
           input_tif: run_script/ost_ard # dir containinig the OST-processed TIFF to write to COG
           bbox: bbox
-          reference_ID: reference_ID # for the reference_ID to fix the STAC Item
+          reference_id: reference_id # for the reference_id to fix the STAC Item
         out: [ost_ard_cog]
 
 # ======================================
@@ -444,7 +503,7 @@ $graph:
       - /bin/bash
       - arvesto.sh
     inputs:
-      reference_ID:
+      reference_id:
         label: Product reference ID
         doc: Product reference ID
         type: string
@@ -454,12 +513,13 @@ $graph:
         doc: Staged products paths
         type: Directory
         outputBinding:
-          glob: $(inputs.reference_ID)
+          glob: $(inputs.reference_id)
     requirements:
       NetworkAccess:
         networkAccess: true
       DockerRequirement:
         dockerPull: cr.terradue.com/seda/arvesto:0.6.3-develop
+        # dockerPull: arvesto:local-test
       ResourceRequirement:
         coresMax: 1
         ramMax: 2000
@@ -473,7 +533,7 @@ $graph:
             set -ex
             
             # Extract ref and uid
-            uid="${return inputs.reference_ID;}"
+            uid="${return inputs.reference_id;}"
             echo $uid
 
             # CDSE creds
@@ -625,7 +685,7 @@ $graph:
         type: Directory
         inputBinding:
           prefix: --input-tif
-      reference_ID:
+      reference_id:
         label: Product reference ID
         type: string
         inputBinding:
@@ -645,7 +705,7 @@ $graph:
       ost_ard_cog:
         type: Directory
         outputBinding:
-          glob: $(inputs.reference_ID + "-COG")
+          glob: $(inputs.reference_id + "-COG")
         
     requirements:
       DockerRequirement:

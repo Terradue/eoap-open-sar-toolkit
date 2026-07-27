@@ -26,11 +26,18 @@ from convert_search.process import convert_search_results
         exists=True, dir_okay=False, file_okay=True, readable=True, path_type=Path
     ),
 )
-def main(target_datetime, input_bbox, search_results):
+@click.option(
+    "--reference",
+    required=False,
+    type=click.STRING,
+    help="Sentinel-1 identifier or CDSE UID of initial product (optional)",
+)
+def main(target_datetime, input_bbox, search_results, reference):
     click.echo(f"Target datetime: {target_datetime}")
     click.echo(f"Input bbox: {input_bbox}")
     click.echo(f"Search results file: {search_results}")
-    items = convert_search_results(search_results, target_datetime, input_bbox)
+    click.echo(f"Reference: {reference}")
+    items = convert_search_results(search_results, target_datetime, input_bbox, reference)
     Path("items.json").write_text(json.dumps(items), encoding="utf-8")
     click.echo(f"Selected items: {items}")
 
