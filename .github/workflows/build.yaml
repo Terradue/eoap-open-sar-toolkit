@@ -16,20 +16,272 @@ name: build
 
 on:
   push:
-    branches: [develop, main]
     tags:
-      - 'v*'
+      - 'v*.*.*'
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_PREFIX: terradue/eoap-open-sar-toolkit
+  CWL_WORKFLOW_DIR: cwl-workflow
+  CWL_TOOL_DIR: command-line-tools
+  ENTRYPOINT: opensartoolkit
 
 jobs:
-  release:
-    uses: eoap/eoap-cwl-release-workflow/.github/workflows/release-cwl.yml@main
-    with:
-      tools: '["convert-search", "stac-catalog"]'
-      image-prefix: terradue/eoap-open-sar-toolkit
-      registry: ghcr.io
-      cwl-workflow-dir: cwl-workflow
-      cwl-tool-dir: command-line-tools
-      entrypoint: opensartoolkit
-    secrets:
-      registry-user: ${{ github.actor }}
-      registry-password: ${{ secrets.GITHUB_TOKEN }}
+  release-meta:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.meta.outputs.tag }}
+      version: ${{ steps.meta.outputs.version }}
+      is_release: ${{ steps.meta.outputs.is_release }}
+    steps:
+      - id: meta
+        run: |
+          set -euo pipefail
+
+          if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
+            VERSION="${GITHUB_REF#refs/tags/v}"
+            if [[ ! "${VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+              echo "Release tags must be vX.Y.Z, got ${GITHUB_REF_NAME}"
+              exit 1
+            fi
+            TAG="${VERSION}"
+            IS_RELEASE="true"
+          if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
+            TAG="latest"
+            VERSION=""
+            IS_RELEASE="false"
+          elif [[ "${GITHUB_REF}" == refs/heads/* ]]; then
+            TAG="latest-dev"
+            VERSION=""
+            IS_RELEASE="false"
+          else
+            echo "Unsupported ref ${GITHUB_REF}"
+            exit 1
+          fi
+
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "is_release=${IS_RELEASE}" >> "$GITHUB_OUTPUT"
+
+  validate-cwl:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/terradue/ci-eoap-container:1.0.1
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate CWL
+        run: |
+          set -euo pipefail
+          for cwl in "${CWL_WORKFLOW_DIR}"/*.cwl
+          do
+            echo "Validating ${cwl}"
+            cwltool --validate "${cwl}"
+            transpiler-mate codemeta "${cwl}" >/tmp/$(basename "${cwl%.cwl}").codemeta.json
+            cwl2ogc --workflow-id "${ENTRYPOINT}" "${cwl}" >/tmp/$(basename "${cwl%.cwl}").ogc.json
+          done
+
+  build-scan-push:
+    needs:
+      - release-meta
+      - validate-cwl
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/terradue/ci-eoap-container:1.0.1
+    strategy:
+      matrix:
+        tool:
+          - convert-search
+          - stac-catalog
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure Docker Hub auth for Kaniko
+        run: |
+          set -euo pipefail
+          if [[ -n "${{ secrets.DOCKERHUB_USERNAME }}" ]]; then
+            mkdir -p "${HOME}/.docker"
+            cat > "${HOME}/.docker/config.json" <<EOF
+          {
+              "auths": {
+                "https://index.docker.io/v1/": {
+                  "auth": "$(echo -n "${{ secrets.DOCKERHUB_USERNAME }}:${{ secrets.DOCKERHUB_TOKEN }}" | base64 -w0)"
+                }
+              }
+          }
+          EOF
+          fi
+
+      - name: Build image with Kaniko
+        uses: docker://gcr.io/kaniko-project/executor:debug
+        env:
+          DOCKER_CONFIG: /github/home/.docker
+        with:
+          args: >
+            --context ${{ env.CWL_TOOL_DIR }}/${{ matrix.tool }}
+            --dockerfile ${{ env.CWL_TOOL_DIR }}/${{ matrix.tool }}/Dockerfile
+            --no-push
+            --tar-path image.tar
+
+      - name: Trivy scan
+        uses: docker://aquasec/trivy:0.50.2
+        env:
+          TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db
+        with:
+          args: >
+            image
+            --input image.tar
+            --severity HIGH,CRITICAL
+            --exit-code 0
+            --no-progress
+
+      - name: Generate SBOM
+        uses: docker://aquasec/trivy:0.50.2
+        env:
+          TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db
+        with:
+          args: >
+            image
+            --input image.tar
+            --format spdx-json
+            --output sbom.spdx.json
+
+      - name: Push image with Skopeo
+        run: |
+          set -euo pipefail
+
+          IMAGE_REF="${REGISTRY}/${IMAGE_PREFIX}/${{ matrix.tool }}:${{ needs.release-meta.outputs.tag }}"
+
+          skopeo copy \
+            --dest-creds="${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}" \
+            docker-archive:image.tar \
+            "docker://${IMAGE_REF}"
+
+          DIGEST=$(skopeo inspect \
+            --creds="${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}" \
+            "docker://${IMAGE_REF}" \
+            | jq -r .Digest)
+
+          echo "${REGISTRY}/${IMAGE_PREFIX}/${{ matrix.tool }}@${DIGEST}" > image.digest
+          echo "Pushed ${IMAGE_REF}"
+
+      - name: Attach SBOM to image digest
+        run: |
+          set -euo pipefail
+
+          echo "${{ secrets.GITHUB_TOKEN }}" \
+            | oras login "${REGISTRY}" -u "${{ github.actor }}" --password-stdin
+
+          oras attach \
+            --artifact-type application/spdx+json \
+            "$(cat image.digest)" \
+            sbom.spdx.json:application/spdx+json
+
+      - name: Export image reference for CWL
+        run: |
+          set -euo pipefail
+          mkdir -p image-refs/${{ matrix.tool }}
+          echo "${{ matrix.tool }}=${REGISTRY}/${IMAGE_PREFIX}/${{ matrix.tool }}:${{ needs.release-meta.outputs.tag }}" > image-refs/${{ matrix.tool }}/images.env
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: image-ref-${{ matrix.tool }}
+          path: image-refs/${{ matrix.tool }}/images.env
+
+  publish-cwl:
+    needs:
+      - release-meta
+      - validate-cwl
+      - build-scan-push
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/terradue/ci-eoap-container:1.0.1
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          path: image-refs
+
+      - name: Merge image references
+        run: |
+          set -euo pipefail
+          cat image-refs/**/images.env > image-refs/all-images.env
+          cat image-refs/all-images.env
+
+      - name: Rewrite app-package metadata
+        run: |
+          set -euo pipefail
+
+          while read -r entry
+          do
+            tool="${entry%%=*}"
+            image_ref="${entry#*=}"
+
+            for cwl in "${CWL_WORKFLOW_DIR}"/*.cwl
+            do
+              t="${tool}" i="${image_ref}" \
+              yq -i '
+                .["$graph"] |= map(
+                  if .id == env(t) then
+                    .requirements.DockerRequirement.dockerPull = env(i)
+                  else
+                    .
+                  end
+                )
+              ' "${cwl}"
+            done
+          done < image-refs/all-images.env
+
+          if [[ "${{ needs.release-meta.outputs.is_release }}" == "true" ]]; then
+            for cwl in "${CWL_WORKFLOW_DIR}"/*.cwl
+            do
+              VERSION="${{ needs.release-meta.outputs.version }}" \
+              yq -i '."s:softwareVersion" = env(VERSION)' "${cwl}"
+            done
+          fi
+
+      - name: Validate rewritten CWL
+        run: |
+          set -euo pipefail
+          for cwl in "${CWL_WORKFLOW_DIR}"/*.cwl
+          do
+            cwltool --validate "${cwl}"
+          done
+
+      - name: Publish CWL as OCI artifacts
+        run: |
+          set -euo pipefail
+
+          OWNER_REPO=$(echo "${GITHUB_REPOSITORY}" | tr '[:upper:]' '[:lower:]')
+
+          echo "${{ secrets.GITHUB_TOKEN }}" \
+            | oras login "${REGISTRY}" -u "${{ github.actor }}" --password-stdin
+
+          cd "${CWL_WORKFLOW_DIR}"
+
+          find . -name "*.cwl" -type f | while read -r cwl
+          do
+            base=$(basename "${cwl}")
+            name="${base%.cwl}"
+
+            (
+              cd "$(dirname "${cwl}")"
+
+              transpiler-mate oci-annotations \
+                --workflow-id "${ENTRYPOINT}" \
+                --image-source "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}.git" \
+                --image-revision "${GITHUB_SHA}" \
+                "${base}"
+
+              oras push \
+                "${REGISTRY}/${OWNER_REPO}/${name}:${{ needs.release-meta.outputs.tag }}" \
+                --artifact-type application/cwl \
+                "${base}:application/cwl" \
+                --annotation-file annotations.json
+            )
+          done
