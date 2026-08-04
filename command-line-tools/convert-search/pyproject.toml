@@ -26,7 +26,8 @@ classifiers = [
 ]
 dependencies = [
   "click>=8.0.0",
-  "shapely"
+  "shapely",
+  "pyproj"
 ]
 
 [project.urls]
