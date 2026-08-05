@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://terradue.github.io/eoap-opensar-toolkit/opensartoolkit/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>OpenSAR Toolkit - OpenSAR Toolkit</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "OpenSAR Toolkit";
+        var mkdocs_page_input_path = "opensartoolkit.md";
+        var mkdocs_page_url = "/eoap-opensar-toolkit/opensartoolkit/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="..">
+          <img src="../imgs/icon-eoap.png" class="logo" alt="Logo"/>
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">OpenSAR Toolkit</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#project-team">Project Team</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#authors">Authors</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#contributors">Contributors</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#developerguide">DeveloperGuide</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#runtime-environment">Runtime environment</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#supported-operating-systems">Supported Operating Systems</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#requirements">Requirements</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#software-source-code">Software Source code</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#opensartoolkit">opensartoolkit</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#cwl-class">CWL Class</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#requirements_1">Requirements</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#inputs">Inputs</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#steps">Steps</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#outputs">Outputs</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ogc-api-processes">OGC API - Processes</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#inputs_1">Inputs</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#outputs_1">Outputs</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#uml-diagrams">UML Diagrams</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#activity-diagram">Activity diagram</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#component-diagram">Component diagram</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#class-diagram">Class diagram</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#sequence-diagram">Sequence diagram</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#state-diagram">State diagram</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#run-in-step">Run in step</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#build_search_request">build_search_request</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#cwl-class_1">CWL Class</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#inputs_2">Inputs</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#run-in-step_1">Run in step</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#odata-client">odata-client</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#cwl-class_2">CWL Class</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#inputs_3">Inputs</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#execution-usage-example">Execution usage example:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#run-in-step_2">Run in step</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#convert-search">convert-search</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#cwl-class_3">CWL Class</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#inputs_4">Inputs</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#execution-usage-example_1">Execution usage example:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#run-in-step_3">Run in step</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#s1_subworkflow">s1_subworkflow</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#cwl-class_4">CWL Class</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#requirements_2">Requirements</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#inputs_5">Inputs</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#steps_1">Steps</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#outputs_2">Outputs</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ogc-api-processes_1">OGC API - Processes</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#inputs_6">Inputs</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#outputs_3">Outputs</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#uml-diagrams_1">UML Diagrams</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#activity-diagram_1">Activity diagram</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#component-diagram_1">Component diagram</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#class-diagram_1">Class diagram</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#sequence-diagram_1">Sequence diagram</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#state-diagram_1">State diagram</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#run-in-step_4">Run in step</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#stage-in">stage-in</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#cwl-class_5">CWL Class</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#inputs_7">Inputs</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#execution-usage-example_2">Execution usage example:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#run-in-step_5">Run in step</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#ost_run">ost_run</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#cwl-class_6">CWL Class</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#inputs_8">Inputs</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#execution-usage-example_3">Execution usage example:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#run-in-step_6">Run in step</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#to-stac-catalog">to-stac-catalog</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#cwl-class_7">CWL Class</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#inputs_9">Inputs</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#execution-usage-example_4">Execution usage example:</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">OpenSAR Toolkit</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">OpenSAR Toolkit</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/terradue/eoap-opensar-toolkit/edit/master/docs/opensartoolkit.md">Edit on teradue/eoap-opensar-toolkit</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="opensartoolkit-v221">OpenSarToolkit v2.2.1</h1>
+<p>Preprocessing an S1 image with OpenSarToolkit OST.</p>
+<blockquote>
+<p>This software is licensed under the terms of the <a href="https://creativecommons.org/licenses/by/4.0/legalcode">Creative Commons Attribution 4.0 International</a> license - SPDX short identifier: <a href="https://spdx.org/licenses/CC-BY-4.0">CC-BY-4.0</a></p>
+<p>2026-03-10 - 2026-04-10T11:50:46.165 Copyright <a href="mailto:info@terradue.com">Terradue Srl</a> - &gt; <a href="https://ror.org/0069cx113">https://ror.org/0069cx113</a></p>
+</blockquote>
+<h2 id="project-team">Project Team</h2>
+<h3 id="authors">Authors</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Email</th>
+<th>Organization</th>
+<th>Role</th>
+<th>Identifier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Vollrath, Andreas</td>
+<td><a href="mailto:andreas.vollrath@fao.org">andreas.vollrath@fao.org</a></td>
+<td><a href="https://ror.org/00pe0tf51">Food and Agriculture Organization of the United Nations</a></td>
+<td><a href=""></a></td>
+<td><a href="https://github.com/BuddyVolly">https://github.com/BuddyVolly</a></td>
+</tr>
+<tr>
+<td>Lurcock, Pontus</td>
+<td><a href="mailto:pontus.lurcock@brockmann-consult.de">pontus.lurcock@brockmann-consult.de</a></td>
+<td><a href="https://ror.org/04r0k9g65">Brockmann Consult</a></td>
+<td><a href=""></a></td>
+<td><a href="https://orcid.org/0000-0001-6994-071X">https://orcid.org/0000-0001-6994-071X</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="contributors">Contributors</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Email</th>
+<th>Organization</th>
+<th>Role</th>
+<th>Identifier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Vaccari, Simone</td>
+<td><a href="mailto:simone.vaccari@terradue.com">simone.vaccari@terradue.com</a></td>
+<td><a href="https://ror.org/0069cx113">Terradue Srl</a></td>
+<td><a href="http://purl.org/spar/datacite/Researcher">Researcher</a></td>
+<td><a href="https://orcid.org/0000-0002-2757-4165">https://orcid.org/0000-0002-2757-4165</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="developerguide">DeveloperGuide</h2>
+<p>DeveloperGuide can be found on <a href="https://terradue.github.io/eoap-open-sar-toolkit/">https://terradue.github.io/eoap-open-sar-toolkit/</a>.</p>
+<h2 id="runtime-environment">Runtime environment</h2>
+<h3 id="supported-operating-systems">Supported Operating Systems</h3>
+<ul>
+<li>Linux</li>
+<li>MacOS X</li>
+</ul>
+<h3 id="requirements">Requirements</h3>
+<ul>
+<li><a href="https://cwltool.readthedocs.io/en/latest/">https://cwltool.readthedocs.io/en/latest/</a></li>
+<li><a href="https://www.python.org/">https://www.python.org/</a></li>
+</ul>
+<h2 id="software-source-code">Software Source code</h2>
+<ul>
+<li>Browsable version of the <a href="https://github.com/Terradue/eoap-open-sar-toolkit.git">source repository</a>;</li>
+<li><a href="https://github.com/Terradue/eoap-open-sar-toolkit/actions">Continuous integration</a> system used by the project;</li>
+<li>Issues, bugs, and feature requests should be submitted to the following <a href="https://github.com/Terradue/eoap-open-sar-toolkit/issues">issue management</a> system for this project</li>
+</ul>
+<hr />
+<h2 id="opensartoolkit">opensartoolkit</h2>
+<h3 id="cwl-class">CWL Class</h3>
+<p><a href="https://www.commonwl.org/v1.2/Workflow.html#Workflow">Workflow</a></p>
+<h3 id="requirements_1">Requirements</h3>
+<ul>
+<li><a href="https://www.commonwl.org/v1.2/Workflow.html#NetworkAccess">NetworkAccess</a></li>
+<li><a href="https://www.commonwl.org/v1.2/Workflow.html#SubworkflowFeatureRequirement">SubworkflowFeatureRequirement</a></li>
+<li><a href="https://www.commonwl.org/v1.2/Workflow.html#StepInputExpressionRequirement">StepInputExpressionRequirement</a></li>
+<li><a href="https://www.commonwl.org/v1.2/Workflow.html#InlineJavascriptRequirement">InlineJavascriptRequirement</a></li>
+<li><a href="https://www.commonwl.org/v1.2/Workflow.html#SchemaDefRequirement">SchemaDefRequirement</a></li>
+</ul>
+<h3 id="inputs">Inputs</h3>
+<table>
+<thead>
+<tr>
+<th>Id</th>
+<th>Type</th>
+<th>Label</th>
+<th>Doc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>resolution</code></td>
+<td><a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">int</a></td>
+<td>Resolution</td>
+<td>Resolution in metres</td>
+</tr>
+<tr>
+<td><code>ard-type</code></td>
+<td>One of:<ul><li><a href="https://www.commonwl.org/v1.2/Workflow.html#InputEnumSchema">enum</a>:<ul><li><code>OST_GTC</code></li><li><code>OST-RTC</code></li><li><code>CEOS</code></li><li><code>Earth-Engine</code></li></ul></li></ul></td>
+<td>ARD type</td>
+<td>Type of analysis-ready data to produce</td>
+</tr>
+<tr>
+<td><code>with-speckle-filter</code></td>
+<td>One of:<ul><li><a href="https://www.commonwl.org/v1.2/Workflow.html#InputEnumSchema">enum</a>:<ul><li><code>APPLY-FILTER</code></li><li><code>NO-FILTER</code></li></ul></li></ul></td>
+<td>Speckle filter</td>
+<td>Whether to apply a speckle filter</td>
+</tr>
+<tr>
+<td><code>resampling-method</code></td>
+<td>One of:<ul><li><a href="https://www.commonwl.org/v1.2/Workflow.html#InputEnumSchema">enum</a>:<ul><li><code>BILINEAR_INTERPOLATION</code></li><li><code>BICUBIC_INTERPOLATION</code></li></ul></li></ul></td>
+<td>Resampling method</td>
+<td>Resampling method to use</td>
+</tr>
+<tr>
+<td><code>target_datetime</code></td>
+<td><a href="https://raw.githubusercontent.com/eoap/schemas/main/string_format.yaml#DateTime">DateTime</a>:<ul><li><code>value</code>: <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">string</a></li></ul></td>
+<td>Target datetime</td>
+<td>Target datetime in ISO 8601 format</td>
+</tr>
+<tr>
+<td><code>bbox</code></td>
+<td><a href="https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml#Polygon">Polygon</a>:<ul><li><code>type</code>: <a href="https://www.commonwl.org/v1.2/Workflow.html#CommandInputEnumSchema">enum</a>:<ul><li><code>Polygon</code></li></ul></li><li><code>coordinates</code>: <code>array</code> of <code>array</code> of <code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li><li><code>bbox</code>: <code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li></ul></td>
+<td>Area of interest</td>
+<td>AOI polygon (bbox field will be used for STAC bbox)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="steps">Steps</h3>
+<table>
+<thead>
+<tr>
+<th>Id</th>
+<th>Runs</th>
+<th>Label</th>
+<th>Doc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#build_search_request">build_search_request</a></td>
+<td><code>#build_search_request</code></td>
+<td>Build search_request and add datetime-interval</td>
+<td>None</td>
+</tr>
+<tr>
+<td><a href="#odata-client">discovery</a></td>
+<td><code>#odata-client</code></td>
+<td>OData API discovery</td>
+<td>Discover STAC items from a OData API endpoint based on a search request</td>
+</tr>
+<tr>
+<td><a href="#convert-search">convert_search</a></td>
+<td><code>#convert-search</code></td>
+<td>Convert Search</td>
+<td>Convert Search results to get the item self hrefs</td>
+</tr>
+<tr>
+<td><a href="#s1_subworkflow">s1_subworkflow</a></td>
+<td><code>#s1_subworkflow</code></td>
+<td>Sub-workflow to process searched S1 data</td>
+<td>Sub-workflow to process searched S1 data</td>
+</tr>
+</tbody>
+</table>
+<h3 id="outputs">Outputs</h3>
+<table>
+<thead>
+<tr>
+<th>Id</th>
+<th>Type</th>
+<th>Label</th>
+<th>Doc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>output</code></td>
+<td><a href="https://www.commonwl.org/v1.2/Workflow.html#Directory">Directory</a></td>
+<td>OST ARD COG output</td>
+<td>OST ARD COG output in a STAC catalog structure</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ogc-api-processes">OGC API - Processes</h3>
+<p>When <code>opensartoolkit</code> <a href="https://www.commonwl.org/v1.2/Workflow.html#Workflow">Workflow</a> is exposed through <a href="https://docs.ogc.org/is/18-062r2/18-062r2.html">OGC API - Processes - Part 1: Core</a>, <code>inputs</code> and <code>outputs</code> fields below represent the interface of the <a href="https://developer.ogc.org/api/processes/index.html#tag/ProcessDescription/operation/getProcessDescription">getProcessDescription</a> API. </p>
+<h4 id="inputs_1">Inputs</h4>
+<p><img alt="opensartoolkit OGC API Processes JSON Inputs schema" src="ogc_processes_inputs.svg" title="opensartoolkit  diagram" /></p>
+<h4 id="outputs_1">Outputs</h4>
+<p><img alt="opensartoolkit OGC API Processes JSON Outputs schema" src="ogc_processes_outputs.svg" title="opensartoolkit  diagram" /></p>
+<h3 id="uml-diagrams">UML Diagrams</h3>
+<h4 id="activity-diagram">Activity diagram</h4>
+<p>Learn more about the <a href="https://en.wikipedia.org/wiki/Activity_diagram">Activity diagram</a> below.</p>
+<p><img alt="opensartoolkit flow diagram" src="activity.svg" title="opensartoolkit Activity diagram" /></p>
+<h4 id="component-diagram">Component diagram</h4>
+<p>Learn more about the <a href="https://en.wikipedia.org/wiki/Component_diagram">Component diagram</a> below.</p>
+<p><img alt="opensartoolkit flow diagram" src="component.svg" title="opensartoolkit Component diagram" /></p>
+<h4 id="class-diagram">Class diagram</h4>
+<p>Learn more about the <a href="https://en.wikipedia.org/wiki/Class_diagram">Class diagram</a> below.</p>
+<p><img alt="opensartoolkit flow diagram" src="class.svg" title="opensartoolkit Class diagram" /></p>
+<h4 id="sequence-diagram">Sequence diagram</h4>
+<p>Learn more about the <a href="https://en.wikipedia.org/wiki/Sequence_diagram">Sequence diagram</a> below.</p>
+<p><img alt="opensartoolkit flow diagram" src="sequence.svg" title="opensartoolkit Sequence diagram" /></p>
+<h4 id="state-diagram">State diagram</h4>
+<p>Learn more about the <a href="https://en.wikipedia.org/wiki/State_diagram">State diagram</a> below.</p>
+<p><img alt="opensartoolkit flow diagram" src="state.svg" title="opensartoolkit State diagram" /></p>
+<h3 id="run-in-step">Run in step</h3>
+<p><code>build_search_request</code></p>
+<h2 id="build_search_request">build_search_request</h2>
+<h3 id="cwl-class_1">CWL Class</h3>
+<p><a href="https://www.commonwl.org/v1.2/Workflow.html#ExpressionTool">ExpressionTool</a></p>
+<h3 id="inputs_2">Inputs</h3>
+<table>
+<thead>
+<tr>
+<th>Id</th>
+<th>Option</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>target_datetime</code></td>
+<td><code>--target_datetime</code></td>
+<td><a href="https://raw.githubusercontent.com/eoap/schemas/main/string_format.yaml#DateTime">DateTime</a>:<ul><li><code>value</code>: <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">string</a></li></ul></td>
+</tr>
+<tr>
+<td><code>bbox</code></td>
+<td><code>--bbox</code></td>
+<td><a href="https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml#Polygon">Polygon</a>:<ul><li><code>type</code>: <a href="https://www.commonwl.org/v1.2/Workflow.html#CommandInputEnumSchema">enum</a>:<ul><li><code>Polygon</code></li></ul></li><li><code>coordinates</code>: <code>array</code> of <code>array</code> of <code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li><li><code>bbox</code>: <code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li></ul></td>
+</tr>
+</tbody>
+</table>
+<h3 id="run-in-step_1">Run in step</h3>
+<p><code>discovery</code></p>
+<h2 id="odata-client">odata-client</h2>
+<h3 id="cwl-class_2">CWL Class</h3>
+<p><a href="https://www.commonwl.org/v1.2/CommandLineTool.html#CommandLineTool">CommandLineTool</a></p>
+<h3 id="inputs_3">Inputs</h3>
+<table>
+<thead>
+<tr>
+<th>Id</th>
+<th>Option</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>api_endpoint</code></td>
+<td><code>--api_endpoint</code></td>
+<td><a href="https://raw.githubusercontent.com/eoap/schemas/main/experimental/api-endpoint.yaml#APIEndpoint">APIEndpoint</a>:<ul><li><code>url</code>: <a href="https://raw.githubusercontent.com/eoap/schemas/main/string_format.yaml#URI">URI</a>:<ul><li><code>value</code>: <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">string</a></li></ul></li><li><code>headers</code>: One of:<ul><li><a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">null</a></li><li><code>array</code> of <a href="https://raw.githubusercontent.com/eoap/schemas/main/experimental/api-endpoint.yaml#KeyValuePair">KeyValuePair</a>:<ul><li><code>key</code>: <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">string</a></li><li><code>value</code>: <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">string</a></li></ul></li></ul></li></ul></td>
+</tr>
+<tr>
+<td><code>search_request</code></td>
+<td><code>--search_request</code></td>
+<td><a href="https://raw.githubusercontent.com/eoap/schemas/main/experimental/discovery.yaml#STACSearchSettings">STACSearchSettings</a>:<ul><li><code>bbox</code>: One of:<ul><li><a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">null</a></li><li><code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li></ul></li><li><code>datetime</code>: One of:<ul><li><a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">null</a></li><li><a href="https://raw.githubusercontent.com/eoap/schemas/main/string_format.yaml#DateTime">DateTime</a>:<ul><li><code>value</code>: <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">string</a></li></ul></li></ul></li><li><code>datetime-interval</code>: One of:<ul><li><a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">null</a></li><li><a href="https://raw.githubusercontent.com/eoap/schemas/main/experimental/discovery.yaml#DatetimeInterval">DatetimeInterval</a>:<ul><li><code>start</code>: <a href="https://raw.githubusercontent.com/eoap/schemas/main/string_format.yaml#DateTime">DateTime</a>:<ul><li><code>value</code>: <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">string</a></li></ul></li><li><code>end</code>: <a href="https://raw.githubusercontent.com/eoap/schemas/main/string_format.yaml#DateTime">DateTime</a>:<ul><li><code>value</code>: <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">string</a></li></ul></li></ul></li></ul></li><li><code>intersects</code>: One of:<ul><li><a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">null</a></li><li><a href="https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml#Point">Point</a>:<ul><li><code>type</code>: <a href="https://www.commonwl.org/v1.2/Workflow.html#CommandInputEnumSchema">enum</a>:<ul><li><code>Point</code></li></ul></li><li><code>coordinates</code>: <code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li><li><code>bbox</code>: <code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li></ul></li><li><a href="https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml#MultiPoint">MultiPoint</a>:<ul><li><code>type</code>: <a href="https://www.commonwl.org/v1.2/Workflow.html#CommandInputEnumSchema">enum</a>:<ul><li><code>MultiPoint</code></li></ul></li><li><code>coordinates</code>: <code>array</code> of <code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li><li><code>bbox</code>: <code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li></ul></li><li><a href="https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml#LineString">LineString</a>:<ul><li><code>type</code>: <a href="https://www.commonwl.org/v1.2/Workflow.html#CommandInputEnumSchema">enum</a>:<ul><li><code>LineString</code></li></ul></li><li><code>coordinates</code>: <code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li><li><code>bbox</code>: <code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li></ul></li><li><a href="https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml#MultiLineString">MultiLineString</a>:<ul><li><code>type</code>: <a href="https://www.commonwl.org/v1.2/Workflow.html#CommandInputEnumSchema">enum</a>:<ul><li><code>MultiLineString</code></li></ul></li><li><code>coordinates</code>: <code>array</code> of <code>array</code> of <code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li><li><code>bbox</code>: <code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li></ul></li><li><a href="https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml#Polygon">Polygon</a>:<ul><li><code>type</code>: <a href="https://www.commonwl.org/v1.2/Workflow.html#CommandInputEnumSchema">enum</a>:<ul><li><code>Polygon</code></li></ul></li><li><code>coordinates</code>: <code>array</code> of <code>array</code> of <code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li><li><code>bbox</code>: <code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li></ul></li><li><a href="https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml#MultiPolygon">MultiPolygon</a>:<ul><li><code>type</code>: <a href="https://www.commonwl.org/v1.2/Workflow.html#CommandInputEnumSchema">enum</a>:<ul><li><code>MultiPolygon</code></li></ul></li><li><code>coordinates</code>: <code>array</code> of <code>array</code> of <code>array</code> of <code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li><li><code>bbox</code>: <code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li></ul></li><li><a href="https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml#GeometryCollection">GeometryCollection</a>:<ul><li><code>type</code>: <a href="https://www.commonwl.org/v1.2/Workflow.html#CommandInputEnumSchema">enum</a>:<ul><li><code>GeometryCollection</code></li></ul></li><li><code>geometries</code>: <code>array</code> of One of:<ul><li><a href="https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml#Point">Point</a>:<ul><li><code>type</code>: <a href="https://www.commonwl.org/v1.2/Workflow.html#CommandInputEnumSchema">enum</a>:<ul><li><code>Point</code></li></ul></li><li><code>coordinates</code>: <code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li><li><code>bbox</code>: <code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li></ul></li><li><a href="https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml#LineString">LineString</a>:<ul><li><code>type</code>: <a href="https://www.commonwl.org/v1.2/Workflow.html#CommandInputEnumSchema">enum</a>:<ul><li><code>LineString</code></li></ul></li><li><code>coordinates</code>: <code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li><li><code>bbox</code>: <code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li></ul></li><li><a href="https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml#Polygon">Polygon</a>:<ul><li><code>type</code>: <a href="https://www.commonwl.org/v1.2/Workflow.html#CommandInputEnumSchema">enum</a>:<ul><li><code>Polygon</code></li></ul></li><li><code>coordinates</code>: <code>array</code> of <code>array</code> of <code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li><li><code>bbox</code>: <code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li></ul></li><li><a href="https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml#MultiPoint">MultiPoint</a>:<ul><li><code>type</code>: <a href="https://www.commonwl.org/v1.2/Workflow.html#CommandInputEnumSchema">enum</a>:<ul><li><code>MultiPoint</code></li></ul></li><li><code>coordinates</code>: <code>array</code> of <code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li><li><code>bbox</code>: <code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li></ul></li><li><a href="https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml#MultiLineString">MultiLineString</a>:<ul><li><code>type</code>: <a href="https://www.commonwl.org/v1.2/Workflow.html#CommandInputEnumSchema">enum</a>:<ul><li><code>MultiLineString</code></li></ul></li><li><code>coordinates</code>: <code>array</code> of <code>array</code> of <code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li><li><code>bbox</code>: <code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li></ul></li><li><a href="https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml#MultiPolygon">MultiPolygon</a>:<ul><li><code>type</code>: <a href="https://www.commonwl.org/v1.2/Workflow.html#CommandInputEnumSchema">enum</a>:<ul><li><code>MultiPolygon</code></li></ul></li><li><code>coordinates</code>: <code>array</code> of <code>array</code> of <code>array</code> of <code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li><li><code>bbox</code>: <code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li></ul></li></ul></li><li><code>bbox</code>: <code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li></ul></li></ul></li><li><code>collections</code>: One of:<ul><li><a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">null</a></li><li><code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">string</a></li></ul></li><li><code>ids</code>: One of:<ul><li><a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">null</a></li><li><code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">string</a></li></ul></li><li><code>limit</code>: One of:<ul><li><a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">null</a></li><li><a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">int</a></li></ul></li><li><code>max-items</code>: One of:<ul><li><a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">null</a></li><li><a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">int</a></li></ul></li><li><code>fields</code>: One of:<ul><li><a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">null</a></li><li><a href="https://raw.githubusercontent.com/eoap/schemas/main/experimental/discovery.yaml#Fields">Fields</a>:<ul><li><code>include</code>: One of:<ul><li><a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">null</a></li><li><code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">string</a></li></ul></li><li><code>exclude</code>: One of:<ul><li><a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">null</a></li><li><code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">string</a></li></ul></li></ul></li></ul></li><li><code>filter</code>: One of:<ul><li><a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">null</a></li><li><a href="https://www.commonwl.org/v1.2/Workflow.html#Any">Any</a></li></ul></li><li><code>filter-lang</code>: One of:<ul><li><a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">null</a></li><li><a href="https://www.commonwl.org/v1.2/Workflow.html#CommandInputEnumSchema">enum</a>:<ul><li><code>cql2-text</code></li><li><code>cql2-json</code></li></ul></li></ul></li><li><code>filter-crs</code>: One of:<ul><li><a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">null</a></li><li><code>array</code> of <a href="https://raw.githubusercontent.com/eoap/schemas/main/string_format.yaml#URI">URI</a>:<ul><li><code>value</code>: <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">string</a></li></ul></li></ul></li><li><code>sortby</code>: One of:<ul><li><a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">null</a></li><li><code>array</code> of <a href="https://raw.githubusercontent.com/eoap/schemas/main/experimental/discovery.yaml#SortBy">SortBy</a>:<ul><li><code>field</code>: <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">string</a></li><li><code>direction</code>: <a href="https://www.commonwl.org/v1.2/Workflow.html#CommandInputEnumSchema">enum</a>:<ul><li><code>asc</code></li><li><code>desc</code></li></ul></li></ul></li></ul></li></ul></td>
+</tr>
+</tbody>
+</table>
+<h3 id="execution-usage-example">Execution usage example:</h3>
+<pre><code>odata-client search $(inputs.api_endpoint.url.value) ${ const args = []; const collections = inputs.search_request.collections; args.push('--collections', collections.join(&quot;,&quot;)); return args; } ${ const args = []; const bbox = inputs.search_request?.bbox; if (Array.isArray(bbox) &amp;&amp; bbox.length &gt;= 4) { args.push('--bbox', ...bbox.map(String)); } return args; } ${ const args = []; const limit = inputs.search_request?.limit; args.push(&quot;--limit&quot;, (limit ?? 10).toString()); return args; } ${ const maxItems = inputs.search_request?.['max-items']; return ['--max-items', (maxItems ?? 20).toString()]; } ${ const args = []; const filter = inputs.search_request?.filter; const filterLang = inputs.search_request?.['filter-lang']; if (filterLang) { args.push('--filter-lang', filterLang); } if (filter) { args.push('--filter', JSON.stringify(filter)); } return args; } ${ const datetime = inputs.search_request?.datetime; const datetimeInterval = inputs.search_request?.datetime_interval; if (datetime) { return ['--datetime', datetime]; } else if (datetimeInterval) { const start = datetimeInterval.start?.value || '..'; const end = datetimeInterval.end?.value || '..'; return ['--datetime', `${start}/${end}`]; } return []; } ${ const ids = inputs.search_request?.ids; const args = []; if (Array.isArray(ids) &amp;&amp; ids.length &gt; 0) { args.push('--ids', ...ids.map(String)); } return args; } ${ const intersects = inputs.search_request?.intersects; if (intersects) { return ['--intersects', JSON.stringify(intersects)]; } return []; } --save discovery-output.json \
+--api_endpoint &lt;API_ENDPOINT&gt; \
+--search_request &lt;SEARCH_REQUEST&gt;
+</code></pre>
+<h3 id="run-in-step_2">Run in step</h3>
+<p><code>convert_search</code></p>
+<h2 id="convert-search">convert-search</h2>
+<h3 id="cwl-class_3">CWL Class</h3>
+<p><a href="https://www.commonwl.org/v1.2/CommandLineTool.html#CommandLineTool">CommandLineTool</a></p>
+<h3 id="inputs_4">Inputs</h3>
+<table>
+<thead>
+<tr>
+<th>Id</th>
+<th>Option</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>target_datetime</code></td>
+<td><code>--target-datetime</code></td>
+<td><a href="https://raw.githubusercontent.com/eoap/schemas/main/string_format.yaml#DateTime">DateTime</a>:<ul><li><code>value</code>: <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">string</a></li></ul></td>
+</tr>
+<tr>
+<td><code>search_results</code></td>
+<td><code>--search-results</code></td>
+<td><a href="https://www.commonwl.org/v1.2/Workflow.html#File">File</a></td>
+</tr>
+<tr>
+<td><code>input_bbox</code></td>
+<td><code>--input-bbox</code></td>
+<td><a href="https://raw.githubusercontent.com/eoap/schemas/main/geojson.yaml#Polygon">Polygon</a>:<ul><li><code>type</code>: <a href="https://www.commonwl.org/v1.2/Workflow.html#CommandInputEnumSchema">enum</a>:<ul><li><code>Polygon</code></li></ul></li><li><code>coordinates</code>: <code>array</code> of <code>array</code> of <code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li><li><code>bbox</code>: <code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li></ul></td>
+</tr>
+</tbody>
+</table>
+<h3 id="execution-usage-example_1">Execution usage example:</h3>
+<pre><code>convert-search \
+--target-datetime &lt;TARGET_DATETIME&gt; \
+--search-results &lt;SEARCH_RESULTS&gt; \
+--input-bbox &lt;INPUT_BBOX&gt;
+</code></pre>
+<h3 id="run-in-step_3">Run in step</h3>
+<p><code>s1_subworkflow</code></p>
+<h2 id="s1_subworkflow">s1_subworkflow</h2>
+<h3 id="cwl-class_4">CWL Class</h3>
+<p><a href="https://www.commonwl.org/v1.2/Workflow.html#Workflow">Workflow</a></p>
+<h3 id="requirements_2">Requirements</h3>
+<ul>
+<li><a href="https://www.commonwl.org/v1.2/Workflow.html#NetworkAccess">NetworkAccess</a></li>
+<li><a href="https://www.commonwl.org/v1.2/Workflow.html#InlineJavascriptRequirement">InlineJavascriptRequirement</a></li>
+<li><a href="https://www.commonwl.org/v1.2/Workflow.html#StepInputExpressionRequirement">StepInputExpressionRequirement</a></li>
+<li><a href="https://www.commonwl.org/v1.2/Workflow.html#SchemaDefRequirement">SchemaDefRequirement</a></li>
+</ul>
+<h3 id="inputs_5">Inputs</h3>
+<table>
+<thead>
+<tr>
+<th>Id</th>
+<th>Type</th>
+<th>Label</th>
+<th>Doc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>reference_ID</code></td>
+<td><a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">string</a></td>
+<td>Product reference ID</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>bbox</code></td>
+<td>One of:<ul><li><a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">null</a></li><li><code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li></ul></td>
+<td>Bounding Box</td>
+<td>Bounding box [minx, miny, maxx, maxy] in the raster CRS</td>
+</tr>
+<tr>
+<td><code>resolution</code></td>
+<td><a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">int</a></td>
+<td>Resolution</td>
+<td>Resolution in metres</td>
+</tr>
+<tr>
+<td><code>ard-type</code></td>
+<td>One of:<ul><li><a href="https://www.commonwl.org/v1.2/Workflow.html#InputEnumSchema">enum</a>:<ul><li><code>OST_GTC</code></li><li><code>OST-RTC</code></li><li><code>CEOS</code></li><li><code>Earth-Engine</code></li></ul></li></ul></td>
+<td>ARD type</td>
+<td>Type of analysis-ready data to produce</td>
+</tr>
+<tr>
+<td><code>with-speckle-filter</code></td>
+<td>One of:<ul><li><a href="https://www.commonwl.org/v1.2/Workflow.html#InputEnumSchema">enum</a>:<ul><li><code>APPLY-FILTER</code></li><li><code>NO-FILTER</code></li></ul></li></ul></td>
+<td>Speckle filter</td>
+<td>Whether to apply a speckle filter</td>
+</tr>
+<tr>
+<td><code>resampling-method</code></td>
+<td>One of:<ul><li><a href="https://www.commonwl.org/v1.2/Workflow.html#InputEnumSchema">enum</a>:<ul><li><code>BILINEAR_INTERPOLATION</code></li><li><code>BICUBIC_INTERPOLATION</code></li></ul></li></ul></td>
+<td>Resampling method</td>
+<td>Resampling method to use</td>
+</tr>
+</tbody>
+</table>
+<h3 id="steps_1">Steps</h3>
+<table>
+<thead>
+<tr>
+<th>Id</th>
+<th>Runs</th>
+<th>Label</th>
+<th>Doc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#stage-in">stage_in</a></td>
+<td><code>#stage-in</code></td>
+<td>Stage-in S1 data</td>
+<td>Stage-in S1 data with Arvesto</td>
+</tr>
+<tr>
+<td><a href="#ost_run">run_script</a></td>
+<td><code>#ost_run</code></td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr>
+<td><a href="#to-stac-catalog">to-stac-catalog</a></td>
+<td><code>#to-stac-catalog</code></td>
+<td>None</td>
+<td>None</td>
+</tr>
+</tbody>
+</table>
+<h3 id="outputs_2">Outputs</h3>
+<table>
+<thead>
+<tr>
+<th>Id</th>
+<th>Type</th>
+<th>Label</th>
+<th>Doc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ost_ard_cog</code></td>
+<td><a href="https://www.commonwl.org/v1.2/Workflow.html#Directory">Directory</a></td>
+<td>OST ARD COG output</td>
+<td>OST ARD COG output in a STAC catalog structure</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ogc-api-processes_1">OGC API - Processes</h3>
+<p>When <code>s1_subworkflow</code> <a href="https://www.commonwl.org/v1.2/Workflow.html#Workflow">Workflow</a> is exposed through <a href="https://docs.ogc.org/is/18-062r2/18-062r2.html">OGC API - Processes - Part 1: Core</a>, <code>inputs</code> and <code>outputs</code> fields below represent the interface of the <a href="https://developer.ogc.org/api/processes/index.html#tag/ProcessDescription/operation/getProcessDescription">getProcessDescription</a> API. </p>
+<h4 id="inputs_6">Inputs</h4>
+<p><img alt="s1_subworkflow OGC API Processes JSON Inputs schema" src="../s1_subworkflow/ogc_processes_inputs.svg" title="s1_subworkflow  diagram" /></p>
+<h4 id="outputs_3">Outputs</h4>
+<p><img alt="s1_subworkflow OGC API Processes JSON Outputs schema" src="../s1_subworkflow/ogc_processes_outputs.svg" title="s1_subworkflow  diagram" /></p>
+<h3 id="uml-diagrams_1">UML Diagrams</h3>
+<h4 id="activity-diagram_1">Activity diagram</h4>
+<p>Learn more about the <a href="https://en.wikipedia.org/wiki/Activity_diagram">Activity diagram</a> below.</p>
+<p><img alt="s1_subworkflow flow diagram" src="../s1_subworkflow/activity.svg" title="s1_subworkflow Activity diagram" /></p>
+<h4 id="component-diagram_1">Component diagram</h4>
+<p>Learn more about the <a href="https://en.wikipedia.org/wiki/Component_diagram">Component diagram</a> below.</p>
+<p><img alt="s1_subworkflow flow diagram" src="../s1_subworkflow/component.svg" title="s1_subworkflow Component diagram" /></p>
+<h4 id="class-diagram_1">Class diagram</h4>
+<p>Learn more about the <a href="https://en.wikipedia.org/wiki/Class_diagram">Class diagram</a> below.</p>
+<p><img alt="s1_subworkflow flow diagram" src="../s1_subworkflow/class.svg" title="s1_subworkflow Class diagram" /></p>
+<h4 id="sequence-diagram_1">Sequence diagram</h4>
+<p>Learn more about the <a href="https://en.wikipedia.org/wiki/Sequence_diagram">Sequence diagram</a> below.</p>
+<p><img alt="s1_subworkflow flow diagram" src="../s1_subworkflow/sequence.svg" title="s1_subworkflow Sequence diagram" /></p>
+<h4 id="state-diagram_1">State diagram</h4>
+<p>Learn more about the <a href="https://en.wikipedia.org/wiki/State_diagram">State diagram</a> below.</p>
+<p><img alt="s1_subworkflow flow diagram" src="../s1_subworkflow/state.svg" title="s1_subworkflow State diagram" /></p>
+<h3 id="run-in-step_4">Run in step</h3>
+<p><code>stage_in</code></p>
+<h2 id="stage-in">stage-in</h2>
+<h3 id="cwl-class_5">CWL Class</h3>
+<p><a href="https://www.commonwl.org/v1.2/CommandLineTool.html#CommandLineTool">CommandLineTool</a></p>
+<h3 id="inputs_7">Inputs</h3>
+<table>
+<thead>
+<tr>
+<th>Id</th>
+<th>Option</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>reference_ID</code></td>
+<td><code>--reference_ID</code></td>
+<td><a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">string</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="execution-usage-example_2">Execution usage example:</h3>
+<pre><code>/bin/bash arvesto.sh \
+--reference_ID &lt;REFERENCE_ID&gt;
+</code></pre>
+<h3 id="run-in-step_5">Run in step</h3>
+<p><code>run_script</code></p>
+<h2 id="ost_run">ost_run</h2>
+<h3 id="cwl-class_6">CWL Class</h3>
+<p><a href="https://www.commonwl.org/v1.2/CommandLineTool.html#CommandLineTool">CommandLineTool</a></p>
+<h3 id="inputs_8">Inputs</h3>
+<table>
+<thead>
+<tr>
+<th>Id</th>
+<th>Option</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>input</code></td>
+<td><code>--input</code></td>
+<td><a href="https://www.commonwl.org/v1.2/Workflow.html#Directory">Directory</a></td>
+</tr>
+<tr>
+<td><code>resolution</code></td>
+<td><code>--resolution</code></td>
+<td><a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">int</a></td>
+</tr>
+<tr>
+<td><code>ard-type</code></td>
+<td><code>--ard-type</code></td>
+<td>One of:<ul><li><a href="https://www.commonwl.org/v1.2/Workflow.html#CommandInputEnumSchema">enum</a>:<ul><li><code>OST_GTC</code></li><li><code>OST-RTC</code></li><li><code>CEOS</code></li><li><code>Earth-Engine</code></li></ul></li></ul></td>
+</tr>
+<tr>
+<td><code>with-speckle-filter</code></td>
+<td><code>--with-speckle-filter</code></td>
+<td>One of:<ul><li><a href="https://www.commonwl.org/v1.2/Workflow.html#CommandInputEnumSchema">enum</a>:<ul><li><code>APPLY-FILTER</code></li><li><code>NO-FILTER</code></li></ul></li></ul></td>
+</tr>
+<tr>
+<td><code>resampling-method</code></td>
+<td><code>--resampling-method</code></td>
+<td>One of:<ul><li><a href="https://www.commonwl.org/v1.2/Workflow.html#CommandInputEnumSchema">enum</a>:<ul><li><code>BILINEAR_INTERPOLATION</code></li><li><code>BICUBIC_INTERPOLATION</code></li></ul></li></ul></td>
+</tr>
+<tr>
+<td><code>cdse-user</code></td>
+<td><code>--cdse-user</code></td>
+<td>One of:<ul><li><a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">null</a></li><li><a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">string</a></li></ul></td>
+</tr>
+<tr>
+<td><code>cdse-password</code></td>
+<td><code>--cdse-password</code></td>
+<td>One of:<ul><li><a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">null</a></li><li><a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">string</a></li></ul></td>
+</tr>
+</tbody>
+</table>
+<h3 id="execution-usage-example_3">Execution usage example:</h3>
+<pre><code>/bin/bash run_me.sh --wipe-cwd \
+--input &lt;INPUT&gt; \
+--resolution &lt;RESOLUTION&gt; \
+--ard-type &lt;ARD-TYPE&gt; \
+--with-speckle-filter &lt;WITH-SPECKLE-FILTER&gt; \
+--resampling-method &lt;RESAMPLING-METHOD&gt; \
+(--cdse-user &lt;CDSE-USER&gt;) \
+(--cdse-password &lt;CDSE-PASSWORD&gt;)
+</code></pre>
+<h3 id="run-in-step_6">Run in step</h3>
+<p><code>to-stac-catalog</code></p>
+<h2 id="to-stac-catalog">to-stac-catalog</h2>
+<h3 id="cwl-class_7">CWL Class</h3>
+<p><a href="https://www.commonwl.org/v1.2/CommandLineTool.html#CommandLineTool">CommandLineTool</a></p>
+<h3 id="inputs_9">Inputs</h3>
+<table>
+<thead>
+<tr>
+<th>Id</th>
+<th>Option</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>input_tif</code></td>
+<td><code>--input-tif</code></td>
+<td><a href="https://www.commonwl.org/v1.2/Workflow.html#Directory">Directory</a></td>
+</tr>
+<tr>
+<td><code>reference_ID</code></td>
+<td><code>--reference-id</code></td>
+<td><a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">string</a></td>
+</tr>
+<tr>
+<td><code>bbox</code></td>
+<td><code>--bbox</code></td>
+<td>One of:<ul><li><a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">null</a></li><li><code>array</code> of <a href="https://www.commonwl.org/v1.2/Workflow.html#CWLType">double</a></li></ul></td>
+</tr>
+</tbody>
+</table>
+<h3 id="execution-usage-example_4">Execution usage example:</h3>
+<pre><code>stac-catalog \
+--input-tif &lt;INPUT_TIF&gt; \
+--reference-id &lt;REFERENCE_ID&gt; \
+(--bbox &lt;BBOX&gt;)
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href=".." class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/terradue/eoap-opensar-toolkit" class="fa fa-code-fork" style="color: #fcfcfc"> teradue/eoap-opensar-toolkit</a>
+        </span>
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
