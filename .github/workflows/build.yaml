@@ -51,7 +51,7 @@ jobs:
             fi
             TAG="${VERSION}"
             IS_RELEASE="true"
-          if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
+          elif [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
             TAG="latest"
             VERSION=""
             IS_RELEASE="false"
