@@ -71,6 +71,7 @@ jobs:
   validate-cwl:
     runs-on: ubuntu-latest
     container:
+      #TODO update
       image: ghcr.io/terradue/ci-eoap-container:1.0.1
     steps:
       - uses: actions/checkout@v4
@@ -129,6 +130,7 @@ jobs:
             --tar-path image.tar
 
       - name: Trivy scan
+        #TODO update
         uses: docker://aquasec/trivy:0.50.2
         env:
           TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db
