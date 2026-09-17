@@ -213,31 +213,43 @@ jobs:
           set -euo pipefail
           cat image-refs/**/images.env > image-refs/all-images.env
           cat image-refs/all-images.env
-
+      
       - name: Rewrite app-package metadata
+        shell: bash
         run: |
           set -euo pipefail
-
-          while read -r entry
+      
+          while IFS='=' read -r tool image_ref
           do
-            tool="${entry%%=*}"
-            image_ref="${entry#*=}"
-
+            [[ -n "${tool}" && -n "${image_ref}" ]] || continue
+      
             for cwl in "${CWL_WORKFLOW_DIR}"/*.cwl
             do
-              t="${tool}" i="${image_ref}" \
+              TOOL_NAME="${tool}" IMAGE_REF="${image_ref}" \
               yq -i '
-                .["$graph"] |= map(
-                  if .id == env(t) then
-                    .requirements.DockerRequirement.dockerPull = env(i)
-                  else
-                    .
-                  end
-                )
+                (
+                  .["$graph"][]
+                  | select(
+                      .requirements.DockerRequirement.dockerPull? != null
+                      and (
+                        .requirements.DockerRequirement.dockerPull
+                        | split("/")[-1]
+                        | split(":")[0]
+                      ) == env(TOOL_NAME)
+                    )
+                  | .requirements.DockerRequirement.dockerPull
+                ) = env(IMAGE_REF)
               ' "${cwl}"
             done
           done < image-refs/all-images.env
-
+      
+          if [[ "${{ needs.release-meta.outputs.is_release }}" == "true" ]]; then
+            for cwl in "${CWL_WORKFLOW_DIR}"/*.cwl
+            do
+              VERSION="${{ needs.release-meta.outputs.version }}" \
+              yq -i '."s:softwareVersion" = env(VERSION)' "${cwl}"
+            done
+          fi
           if [[ "${{ needs.release-meta.outputs.is_release }}" == "true" ]]; then
             for cwl in "${CWL_WORKFLOW_DIR}"/*.cwl
             do

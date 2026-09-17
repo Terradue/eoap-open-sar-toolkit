@@ -1,4 +1,4 @@
-# OpenSarToolkit v2.2.1
+# OpenSarToolkit v3.0.0
 
 Preprocessing an S1 image with OpenSarToolkit OST.
 
