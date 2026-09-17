@@ -71,8 +71,7 @@ jobs:
   validate-cwl:
     runs-on: ubuntu-latest
     container:
-      #TODO update
-      image: ghcr.io/terradue/ci-eoap-container:1.0.1
+      image: ghcr.io/terradue/ci-eoap-container
     steps:
       - uses: actions/checkout@v4
 
@@ -83,8 +82,8 @@ jobs:
           do
             echo "Validating ${cwl}"
             cwltool --validate "${cwl}"
-            transpiler-mate codemeta "${cwl}" >/tmp/$(basename "${cwl%.cwl}").codemeta.json
-            cwl2ogc --workflow-id "${ENTRYPOINT}" "${cwl}" >/tmp/$(basename "${cwl%.cwl}").ogc.json
+            transpiler-mate codemeta "${cwl}" --output "/tmp/$(basename "${cwl%.cwl}").codemeta.json"
+            transpiler-mate ogcprocesses "${cwl}" --output "/tmp/$(basename "${cwl%.cwl}").ogc.json"
           done
 
   build-scan-push:
@@ -93,7 +92,7 @@ jobs:
       - validate-cwl
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/terradue/ci-eoap-container:1.0.1
+      image: ghcr.io/terradue/ci-eoap-container
     strategy:
       matrix:
         tool:
@@ -130,20 +129,19 @@ jobs:
             --tar-path image.tar
 
       - name: Trivy scan
-        #TODO update
-        uses: docker://aquasec/trivy:0.50.2
+        uses: docker://aquasec/trivy:0.69.3
         env:
           TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db
         with:
           args: >
             image
             --input image.tar
-            --severity HIGH,CRITICAL
+            --severity HIGH,CRITICAL,UNKNOWN
             --exit-code 0
             --no-progress
 
       - name: Generate SBOM
-        uses: docker://aquasec/trivy:0.50.2
+        uses: docker://aquasec/trivy:0.69.3
         env:
           TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db
         with:
@@ -202,7 +200,7 @@ jobs:
       - build-scan-push
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/terradue/ci-eoap-container:1.0.1
+      image: ghcr.io/terradue/ci-eoap-container
     steps:
       - uses: actions/checkout@v4
 
@@ -288,6 +286,7 @@ jobs:
               cd "$(dirname "${cwl}")"
 
               transpiler-mate oci-annotations \
+                --output annotations.json \
                 --workflow-id "${ENTRYPOINT}" \
                 --image-source "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}.git" \
                 --image-revision "${GITHUB_SHA}" \

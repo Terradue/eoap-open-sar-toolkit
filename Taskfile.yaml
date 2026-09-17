@@ -5,11 +5,11 @@ tasks:
   validate:
     desc: 'Validate the CWL workflow'
     cmds:
-      - defer: rm -f process.json codemeta.json
+      - defer: rm -f processes.json codemeta.json
       - |
         cwltool --validate cwl-workflow/open-sar-toolkit.cwl && \
         uv run --with transpiler-mate transpiler-mate codemeta cwl-workflow/open-sar-toolkit.cwl && \
-        uv run --with cwl2ogc cwl2ogc --workflow-id opensartoolkit cwl-workflow/open-sar-toolkit.cwl
+        uv run --with transpiler-mate transpiler-mate ogcprocesses cwl-workflow/open-sar-toolkit.cwl
     silent: false
 
   metadata: 
