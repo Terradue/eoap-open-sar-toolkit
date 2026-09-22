@@ -6,7 +6,7 @@ schemas:
 - http://schema.org/version/9.0/schemaorg-current-http.rdf
 
 # Software 
-s:name: OpenSarToolkit 
+s:name: OpenSarToolkit TimeScan
 s:description: Preprocessing an S1 image with OpenSarToolkit OST.
 s:dateCreated: '2026-03-10'
 s:license:
@@ -110,7 +110,7 @@ s:contributor:
 $graph:
   - id: opensartoolkit
     class: Workflow
-    label: OpenSarToolkit
+    label: OpenSarToolkit TimeScan
     doc: Preprocessing an S1 image with OST
     requirements: 
       NetworkAccess:
@@ -390,11 +390,13 @@ $graph:
     requirements: 
       NetworkAccess:
         networkAccess: true
+      ResourceRequirement:
+        coresMax: 6
+        ramMax: 24000
       InlineJavascriptRequirement: {}
       StepInputExpressionRequirement: {}
       DockerRequirement:
         dockerPull: ghcr.io/terradue/eoap-open-sar-toolkit/convert-search:latest-dev
-        # dockerPull: convert-search:local-test
       SchemaDefRequirement:
         types:
           - $import: https://raw.githubusercontent.com/eoap/schemas/main/ogc.yaml
@@ -519,10 +521,10 @@ $graph:
         networkAccess: true
       DockerRequirement:
         dockerPull: cr.terradue.com/seda/arvesto:0.6.3-develop
-        # dockerPull: arvesto:local-test
+        #TODO update
       ResourceRequirement:
-        coresMax: 1
-        ramMax: 2000
+        coresMax: 2
+        ramMax: 4000
       InlineJavascriptRequirement: {}
       InitialWorkDirRequirement:
         listing:
